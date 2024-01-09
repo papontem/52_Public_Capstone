@@ -147,7 +147,8 @@ Here's a summary of the key information:
             "extract": "string",
             "extract_html": "string",
             "normalizedtitle": "string"
-            }
+            }, 
+            { ... }
         ],
         "year": 0
         }
@@ -194,44 +195,7 @@ Here's a summary of the key information:
             "extract_html": "string",
             "normalizedtitle": "string"
             },
-            {
-            "type": "string",
-            "title": "string",
-            "displaytitle": "string",
-            "namespace": {
-                "id": 0,
-                "text": "string"
-            },
-            "wikibase_item": "string",
-            "titles": {
-                "canonical": "string",
-                "normalized": "string",
-                "display": "string"
-            },
-            "pageid": 0,
-            "lang": "string",
-            "dir": "string",
-            "revision": "string",
-            "tid": "string",
-            "timestamp": "string",
-            "content_urls": {
-                "desktop": {
-                "page": "URL string",
-                "revisions": "URL string",
-                "edit": "URL string",
-                "talk": "URL string"
-                },
-                "mobile": {
-                "page": "URL string",
-                "revisions": "URL string",
-                "edit": "URL string",
-                "talk": "URL string"
-                }
-            },
-            "extract": "string",
-            "extract_html": "string",
-            "normalizedtitle": "string"
-            }
+            { ... }
         ],
         "year": 0
         }
@@ -290,56 +254,7 @@ Here's a summary of the key information:
             "extract_html": "string",
             "normalizedtitle": "string"
             },
-            {
-            "type": "string",
-            "title": "string",
-            "displaytitle": "string",
-            "namespace": {
-                "id": 0,
-                "text": "string"
-            },
-            "wikibase_item": "string",
-            "titles": {
-                "canonical": "string",
-                "normalized":"string",
-                "display": "string"
-            },
-            "pageid": 0,
-            "thumbnail": {
-                "source": "string",
-                "width": 0,
-                "height": 0
-            },
-            "originalimage": {
-                "source": "string",
-                "width": 0,
-                "height": 0
-            },
-            "lang": "string",
-            "dir": "string",
-            "revision": "string",
-            "tid": "string",
-            "timestamp": "string",
-            "description": "string",
-            "description_source": "string",
-            "content_urls": {
-                "desktop": {
-                "page": "URL string",
-                "revisions": "URL string",
-                "edit": "URL string",
-                "talk": "URL string"
-                },
-                "mobile": {
-                "page": "URL string",
-                "revisions": "URL string",
-                "edit": "URL string",
-                "talk": "URL string"
-                }
-            },
-            "extract": "string",
-            "extract_html": "string",
-            "normalizedtitle": "string"
-            }
+            { ... }
         ],
         "year": 0
         }
@@ -487,7 +402,8 @@ Everything with a star is what ill take as requiered
             - ⭐ pages.content_urls: URLs for accessing the related Wikipedia pages on both desktop and mobile.
     - ⭐ year: The year in which the event occurred.
     - Wikibase_item: identifier string starting with "Q" for an item in Wikibase
-This info may be useful for when we develop theball and whistles, and preetiffy the app.
+
+This info may be useful for when we develop the bell and whistles, and preetiffy the app.
 - Image Information (for events, births, deaths, holidays):
     thumbnail: URL and dimensions of a thumbnail image related to the event, person, or holiday.
     originalimage: URL and dimensions of the original image.
