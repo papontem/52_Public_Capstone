@@ -398,56 +398,7 @@ Here's a summary of the key information:
             "extract_html": "string",
             "normalizedtitle": "string"
             },
-            {
-            "type": "string",
-            "title": "string",
-            "displaytitle": "string",
-            "namespace": {
-                "id": 0,
-                "text": "string"
-            },
-            "wikibase_item": "string",
-            "titles": {
-                "canonical": "string",
-                "normalized": "string",
-                "display": "string"
-            },
-            "pageid": 0,
-            "thumbnail": {
-                "source": "string",
-                "width": 0,
-                "height": 0
-            },
-            "originalimage": {
-                "source": "string",
-                "width": 0,
-                "height": 0
-            },
-            "lang": "string",
-            "dir": "string",
-            "revision": "string",
-            "tid": "string",
-            "timestamp": "string",
-            "description": "string",
-            "description_source": "string",
-            "content_urls": {
-                "desktop": {
-                "page": "URL string",
-                "revisions": "URL string",
-                "edit": "URL string",
-                "talk": "URL string"
-                },
-                "mobile": {
-                "page": "URL string",
-                "revisions": "URL string",
-                "edit": "URL string",
-                "talk": "URL string"
-                }
-            },
-            "extract": "string",
-            "extract_html": "string",
-            "normalizedtitle": "string"
-            }
+            {...}
         ],
         "year": 0
         }
@@ -457,105 +408,56 @@ Here's a summary of the key information:
         "text": "string",
         "pages": [
             {
-            "type": "string",
-            "title": "string",
-            "displaytitle": "string",
-            "namespace": {
-                "id": 0,
-                "text": "string"
-            },
-            "wikibase_item": "string",
-            "titles": {
-                "canonical": "string",
-                "normalized": "string",
-                "display": "string"
-            },
-            "pageid": 0,
-            "thumbnail": {
-                "source": "URL string",
-                "width": 0,
-                "height": 0
-            },
-            "originalimage": {
-                "source": "URL string",
-                "width": 0,
-                "height": 0
-            },
-            "lang": "string",
-            "dir": "string",
-            "revision": "string",
-            "tid": "string",
-            "timestamp": "string",
-            "description": "string",
-            "description_source": "string",
-            "content_urls": {
-                "desktop": {
-                "page": "URL string",
-                "revisions": "URL string",
-                "edit": "URL string",
-                "talk": "URL string"
+                "type": "string",
+                "title": "string",
+                "displaytitle": "string",
+                "namespace": {
+                    "id": 0,
+                    "text": "string"
                 },
-                "mobile": {
-                "page": "URL string",
-                "revisions": "URL string",
-                "edit": "URL string",
-                "talk": "URL string"
-                }
-            },
-            "extract": "string",
-            "extract_html": "string",
-            "normalizedtitle": "string"
-            },
-            {
-            "type": "string",
-            "title": "string",
-            "displaytitle": "string",
-            "namespace": {
-                "id": 0,
-                "text": "string"
-            },
-            "wikibase_item": "string",
-            "titles": {
-                "canonical": "string",
-                "normalized": "string",
-                "display": "string"
-            },
-            "pageid": 0,
-            "thumbnail": {
-                "source": "string",
-                "width": 0,
-                "height": 0
-            },
-            "originalimage": {
-                "source": "string",
-                "width": 0,
-                "height": 0
-            },
-            "lang": "string",
-            "dir": "string",
-            "revision": "string",
-            "tid": "string",
-            "timestamp": "string",
-            "description": "string",
-            "description_source": "string",
-            "content_urls": {
-                "desktop": {
-                "page": "URL string",
-                "revisions": "URL string",
-                "edit": "URL string",
-                "talk": "URL string"
+                "wikibase_item": "string",
+                "titles": {
+                    "canonical": "string",
+                    "normalized": "string",
+                    "display": "string"
                 },
-                "mobile": {
-                "page": "URL string",
-                "revisions": "URL string",
-                "edit": "URL string",
-                "talk": "URL string"
-                }
+                "pageid": 0,
+                "thumbnail": {
+                    "source": "URL string",
+                    "width": 0,
+                    "height": 0
+                },
+                "originalimage": {
+                    "source": "URL string",
+                    "width": 0,
+                    "height": 0
+                },
+                "lang": "string",
+                "dir": "string",
+                "revision": "string",
+                "tid": "string",
+                "timestamp": "string",
+                "description": "string",
+                "description_source": "string",
+                "content_urls": {
+                    "desktop": {
+                    "page": "URL string",
+                    "revisions": "URL string",
+                    "edit": "URL string",
+                    "talk": "URL string"
+                    },
+                    "mobile": {
+                    "page": "URL string",
+                    "revisions": "URL string",
+                    "edit": "URL string",
+                    "talk": "URL string"
+                    }
+                },
+                "extract": "string",
+                "extract_html": "string",
+                "normalizedtitle": "string"
             },
-            "extract": "string",
-            "extract_html": "string",
-            "normalizedtitle": "string"
-            }
+            {...}
         ],
         "year": 0
         }
@@ -570,22 +472,22 @@ Here's a summary of the key information:
 
 
 ### Think about what data you'll need for your site, and what data in the API may be unnecessary.
-Everything with a star is what ill take.
+Everything with a star is what ill take as requiered
 - Event Information:
-    ⭐ selected: Historical events curated for the given date.
-    ⭐ events: Other events that occurred on the given date.
-    ⭐ holiday: Holiday celebrated on this given date.
-    ⭐ births: Information about notable people born on the given date.
-    ⭐ deaths: Details about notable people who died on the given date.
+    - ⭐ selected: Historical events curated for the given date.
+    - ⭐ events: Other events that occurred on the given date.
+    - ⭐ holiday: Holiday celebrated on this given date.
+    - ⭐ births: Information about notable people born on the given date.
+    - ⭐ deaths: Details about notable people who died on the given date.
 
 - Data for Each Event:
-    ⭐ text: A brief description of the event.
-    ⭐ pages: Additional details about the event, such as associated Wikipedia pages.
+    - ⭐ text: A brief description of the event.
+    - ⭐ pages: Additional details about the event, such as associated Wikipedia pages.
         - Content URLs:
-            ⭐ pages.content_urls: URLs for accessing the related Wikipedia pages on both desktop and mobile.
-    ⭐ year: The year in which the event occurred.
-
-
+            - ⭐ pages.content_urls: URLs for accessing the related Wikipedia pages on both desktop and mobile.
+    - ⭐ year: The year in which the event occurred.
+    - Wikibase_item: identifier string starting with "Q" for an item in Wikibase
+This info may be useful for when we develop theball and whistles, and preetiffy the app.
 - Image Information (for events, births, deaths, holidays):
     thumbnail: URL and dimensions of a thumbnail image related to the event, person, or holiday.
     originalimage: URL and dimensions of the original image.
