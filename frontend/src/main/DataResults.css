@@ -1,0 +1,26 @@
+.OnThisDay-DataResults {
+    margin: 10px;
+    outline: lightcoral 2px solid;
+    height: auto;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr;
+    /* Adjust the gap as needed */
+    gap: 10px; 
+ }
+ 
+ /* Styling for each cell */
+ .OnThisDay-DataResults-selected,
+ .OnThisDay-DataResults-events,
+ .OnThisDay-DataResults-holidays,
+ .OnThisDay-DataResults-births,
+ .OnThisDay-DataResults-deaths {
+    padding: 10px;
+    margin: 2px;
+    outline: 2px solid yellow;
+ }
+ .OnThisDay-DataResults-selected,
+ .OnThisDay-DataResults-events,
+ .OnThisDay-DataResults-holidays{
+    grid-column: span 2;
+ }

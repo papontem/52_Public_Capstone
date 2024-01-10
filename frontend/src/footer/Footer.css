@@ -1,0 +1,44 @@
+/* Footer.css */
+
+#My_Footer {
+	background-color: #282c34;
+	padding: 10px;
+}
+
+.Footer_Content {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.Footer_Content_React_creds {
+	display: flex;
+	align-items: center;
+}
+
+.App-logo {
+	height: 30px; /* Adjust the height of the logo as needed */
+	margin-right: 10px; /* Add some spacing between the logo and text */
+}
+.App-wiki-logo {
+	filter: invert(1);
+	height: 30px; /* Adjust the height of the logo as needed */
+	margin-right: 10px; /* Add some spacing between the logo and text */
+}
+.Footer_Content_PAM_creds p {
+	color: white;
+	margin: 5;
+}
+
+.Footer_Content_PAM_creds a {
+	color: white;
+	margin-left: 10px; /* Add some spacing between the links */
+	text-decoration: none;
+}
+
+/* Additional styles for the links on hover or focus */
+.Footer_Content_PAM_creds a:hover,
+.Footer_Content_PAM_creds a:focus {
+	text-decoration: underline;
+}
+

@@ -1,0 +1,16 @@
+/*  DateForm.css */
+.OnThisDay-DateForm {
+    margin: 10px;
+    padding: 5px;
+    outline: lightgreen 2px solid;
+}
+
+.OnThisDay-DateForm label {
+    margin: 5px;
+}
+.OnThisDay-DateForm input {
+    margin: 5px;
+}
+.OnThisDay-DateForm select {
+    margin: 5px;
+}

@@ -1,0 +1,48 @@
+/* NavBar.css */
+
+.NavBar {
+	width: calc(100dvw - 35px);
+	padding: 5px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #333;
+	outline: white 1px solid;
+
+	background-color: #333;
+	text-align: center;
+	font-weight: bold;
+}
+
+.NavBar a {
+	margin: 5px;
+	padding: 15px;
+	color: rgba(255, 255, 255, 0.5);
+	border: solid white 1px;
+	border-radius: 5px;
+
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	align-items: center;
+}
+.NavBar a svg {
+	padding: 0;
+	margin: 4px 4px 0px 4px;
+}
+
+.NavBar a:hover {
+	outline: royalblue 5px solid;
+	color: rgba(255, 255, 255);
+
+}
+
+.NavBar a.active {
+	font-weight: bolder;
+	color: gold;
+	border: solid white 5px;
+}
+.NavBar a.active svg{
+	fill: gold;
+}
