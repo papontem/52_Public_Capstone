@@ -8,7 +8,7 @@ const cors = require("cors");
 
 const { NotFoundError } = require("./expressError");
 // JWT
-// const { authenticateJWT } = require("./middleware/auth");
+const { authenticateJWT } = require("./middleware/auth");
 // ROUTES
 // const authRoutes = require("./routes/auth");
 
@@ -27,7 +27,7 @@ app.use(
 	)
 );
 // JWT
-// app.use(authenticateJWT);
+app.use(authenticateJWT);
 
 // ROUTES
 // app.use("/auth", authRoutes);

@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://otdtil.com/factUpdate.schema.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "fact_date":{
+      "type":"string",
+      "minLength": 6,
+      "maxLength": 8
+    },
+    "page_id":{
+      "type":"string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "fact_date",
+    "page_id"
+  ]
+}
+

@@ -6,16 +6,13 @@
 -- DROP DATABASE IF EXISTS  onthisday_til_test_db;
 
 -- CREATE DATABASE onthisday_til_db;
--- CREATE DATABASE onthisday_til_test_db;
-
--- \c onthisday_til_db
--- \c onthisday_til_test_db
-
 CREATE TABLE users (
-  user_id INTEGER PRIMARY KEY,
+  user_id SERIAL PRIMARY KEY,
   username VARCHAR(25) NOT NULL,
   password TEXT NOT NULL,
-  date_reg TEXT NOT NULL, 
+  date_reg DATE NOT NULL, 
+  email TEXT NOT NULL
+    CHECK (position('@' IN email) > 1),
   is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 

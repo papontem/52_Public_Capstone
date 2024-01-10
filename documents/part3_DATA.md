@@ -279,9 +279,9 @@ Pages -> Facts: One-to-Many. Each page can be a source for multiple facts.
     | username: Str   |      | fact_id: Int    |
     | password: Str   |      +-----------------+
     | date_reg: DATE  |                ^
+    | email: email    |                |
     | is_admin: Bool  |                |
-    +-----------------+                |
-                                +-----------------+
+    +-----------------+         +-----------------+
     +--------------------+      |      Facts      |
     |      Pages         |      +-----------------+
     +--------------------+      | id: Integer     |

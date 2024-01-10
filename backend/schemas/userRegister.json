@@ -1,0 +1,30 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://otdtil.com/userRegister.schema.json",
+	"type": "object",
+	"properties": {
+		"username": {
+			"type": "string",
+			"minLength": 1,
+			"maxLength": 30
+		},
+		"password": {
+			"type": "string",
+			"minLength": 5,
+			"maxLength": 20
+		},
+		"date_reg": {
+			"type": "string",
+			"minLength": 6,
+			"maxLength": 8
+		},
+		"email": {
+			"type": "string",
+			"minLength": 6,
+			"maxLength": 60,
+			"format": "email"
+		}
+	},
+	"additionalProperties": false,
+	"required": ["username", "password", "date_reg", "email"]
+}

@@ -1,3 +1,6 @@
+-- in terminal:
+-- psql < onthisday_til_db.sql
+
 \echo 'Delete and recreate the On This Day Today I Learned db?'
 \prompt 'Return for yes or control-C to cancel > ' foo
 
