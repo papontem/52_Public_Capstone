@@ -28,7 +28,7 @@ CREATE TABLE pages (
 CREATE TABLE facts (
   fact_id SERIAL PRIMARY KEY,
   title TEXT NOT NULL,
-  fact_date DATE,
+  fact_date DATE NOT NULL,
   page_id INTEGER NOT NULL REFERENCES pages ON DELETE CASCADE
 );
 

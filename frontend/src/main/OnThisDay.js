@@ -4,7 +4,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./OnThisDay.css";
 import DateForm from "./DateForm.js";
 import DataResults from "./DataResults.js";
+
 // import axios from "axios"; //debugging
+
 import useAxios from "./hooks/useAxios.js";
 import todayDateGen from "./helpers/todayDateGen.js";
 import apiSettings from "./helpers/apiSettings.js";
@@ -16,7 +18,7 @@ function OnThisDay(props) {
 
 	// const todayString = today.toDateString()
 	// console.log(todayString);
-	
+
 	// console.log(
 	// 	`|Today Is: ${defaultMonth}/${defaultDay}/${today.getFullYear()}`
 	// );
@@ -82,7 +84,7 @@ function OnThisDay(props) {
 		holidays: [],
 		births: [],
 		deaths: [],
-		id:""
+		id: "",
 	});
 
 	// Have react execute function fetchData when fetchData Button is pressed
@@ -104,7 +106,12 @@ function OnThisDay(props) {
 		// console.log(
 		// 	`Updated Current Selection (mm-dd): ${formData.selectedType} (${formData.selectedMonth}-${formData.selectedDay})`
 		// );
-	}, [formData.selectedMonth, formData.selectedDay, formData.selectedType, updateUrl]);
+	}, [
+		formData.selectedMonth,
+		formData.selectedDay,
+		formData.selectedType,
+		updateUrl,
+	]);
 
 	// use effect that occurs when request response aray elements are recieved from axios
 	useEffect(() => {
@@ -117,10 +124,9 @@ function OnThisDay(props) {
 				holidays: axiosRequestResponses[0].holidays || [],
 				births: axiosRequestResponses[0].births || [],
 				deaths: axiosRequestResponses[0].deaths || [],
-				id:axiosRequestResponses[0].id || ""
+				id: axiosRequestResponses[0].id || "",
 			});
 		}
-
 	}, [axiosRequestResponses]);
 
 	console.log("OnThisDay Main component end");
