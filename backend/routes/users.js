@@ -22,7 +22,7 @@ const router = express.Router();
  * admin.
  *
  * This returns the newly created user and an authentication token for them:
- *  {user: { username, firstName, lastName, email, isAdmin }, token }
+ *  {user: { username, date_reg, email, isAdmin }, token }
  *
  * Authorization required: admin
  **/
@@ -44,7 +44,7 @@ router.post("/", ensureAdmin, async function (req, res, next) {
 });
 
 
-/** GET / => { users: [ {username, firstName, lastName, email }, ... ] }
+/** GET / => { users: [ {username, date_reg, email }, ... ] }
  *
  * Returns list of all users.
  *
@@ -60,11 +60,11 @@ router.get("/", ensureAdmin, async function (req, res, next) {
   }
 });
 
-
+// TODO: implement in models
 /** GET /[username] => { user }
  *
- * Returns { username, firstName, lastName, isAdmin, jobs }
- *   where jobs is { id, title, companyHandle, companyName, state }
+ * Returns { username, isAdmin, favorites }
+ *   where favorites is  [] 
  *
  * Authorization required: admin or same user-as-:username
  **/
@@ -78,16 +78,16 @@ router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, nex
   }
 });
 
-
+// TODO: implement in models
 /** PATCH /[username] { user } => { user }
  *
  * Data can include:
- *   { firstName, lastName, password, email }
- *
- * Returns { username, firstName, lastName, email, isAdmin }
- *
- * Authorization required: admin or same-user-as-:username
- **/
+ *   { username, password, email }
+*
+* Returns { username, email, isAdmin }
+*
+* Authorization required: admin or same-user-as-:username
+**/
 
 router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
@@ -96,7 +96,7 @@ router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, n
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
-
+    
     const user = await User.update(req.params.username, req.body);
     return res.json({ user });
   } catch (err) {
@@ -108,7 +108,7 @@ router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, n
 /** DELETE /[username]  =>  { deleted: username }
  *
  * Authorization required: admin or same-user-as-:username
- **/
+**/
 
 router.delete("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
@@ -119,19 +119,19 @@ router.delete("/:username", ensureCorrectUserOrAdmin, async function (req, res, 
   }
 });
 
-
-/** POST /[username]/jobs/[id]  { state } => { application }
+// TODO: implement in models
+/** POST /[username]/favorites/[id]  { state } => { application }
  *
- * Returns {"applied": jobId}
- *
- * Authorization required: admin or same-user-as-:username
- * */
+ * Returns {"favorited": fact_Id}
+*
+* Authorization required: admin or same-user-as-:username
+* */
 
-router.post("/:username/jobs/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
+router.post("/:username/favorites/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
-    const jobId = +req.params.id;
-    await User.applyToJob(req.params.username, jobId);
-    return res.json({ applied: jobId });
+    const fact_id = +req.params.id;
+    await User.applyToJob(req.params.username, fact_id);
+    return res.json({ favorited: fact_id });
   } catch (err) {
     return next(err);
   }

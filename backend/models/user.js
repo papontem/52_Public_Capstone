@@ -26,8 +26,6 @@ class User {
     const result = await db.query(
           `SELECT username,
                   password,
-                  first_name AS "firstName",
-                  last_name AS "lastName",
                   email,
                   is_admin AS "isAdmin"
            FROM users
@@ -57,7 +55,7 @@ class User {
    **/
 
   static async register(
-      { username, password, firstName, lastName, email, isAdmin }) {
+      { username, password, email, isAdmin }) {
     const duplicateCheck = await db.query(
           `SELECT username
            FROM users
@@ -71,21 +69,22 @@ class User {
 
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
+    // TODO: create current time of registering
+    // const date_reg;
+
     const result = await db.query(
           `INSERT INTO users
            (username,
             password,
-            first_name,
-            last_name,
+            date_reg,
             email,
             is_admin)
-           VALUES ($1, $2, $3, $4, $5, $6)
-           RETURNING username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"`,
+           VALUES ($1, $2, $3, $5, $6)
+           RETURNING username, date_reg, email, is_admin AS "isAdmin"`,
         [
           username,
           hashedPassword,
-          firstName,
-          lastName,
+          date_reg,
           email,
           isAdmin,
         ],
@@ -98,14 +97,13 @@ class User {
 
   /** Find all users.
    *
-   * Returns [{ username, first_name, last_name, email, is_admin }, ...]
+   * Returns [{ username, date_reg, email, is_admin }, ...]
    **/
 
   static async findAll() {
     const result = await db.query(
           `SELECT username,
-                  first_name AS "firstName",
-                  last_name AS "lastName",
+                  date_reg,
                   email,
                   is_admin AS "isAdmin"
            FROM users
@@ -115,39 +113,42 @@ class User {
     return result.rows;
   }
 
-  /** Given a username, return data about user.
+  // TODO 
+  /** Given a use_id, return data about user.
    *
-   * Returns { username, first_name, last_name, is_admin, jobs }
-   *   where jobs is { id, title, company_handle, company_name, state }
+   * Returns { user_id, username, date_reg, email, is_admin, favorites}
+   *   where jobs is [ ]
    *
    * Throws NotFoundError if user not found.
    **/
 
-  static async get(username) {
+  static async get(user_id) {
     const userRes = await db.query(
-          `SELECT username,
-                  first_name AS "firstName",
-                  last_name AS "lastName",
+          `SELECT user_id,
+                  username,
+                  date_reg,
                   email,
                   is_admin AS "isAdmin"
            FROM users
-           WHERE username = $1`,
-        [username],
+           WHERE user_id = $1`,
+        [user_id],
     );
 
     const user = userRes.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${username}`);
+    if (!user) throw new NotFoundError(`No user: ${user_id}`);
 
-    const userApplicationsRes = await db.query(
-          `SELECT a.job_id
-           FROM applications AS a
-           WHERE a.username = $1`, [username]);
+    // IMPLEMENT THE ARRAY OF FAVORITES QUERY
+    // const userApplicationsRes = await db.query(
+    //       `SELECT a.job_id
+    //        FROM applications AS a
+    //        WHERE a.username = $1`, [username]);
 
-    user.applications = userApplicationsRes.rows.map(a => a.job_id);
+    // user.applications = userApplicationsRes.rows.map(a => a.job_id);
     return user;
   }
 
+  // TODO MAKE SURE USER CAN CHANGE THEIR USERNAME
   /** Update user data with `data`.
    *
    * This is a "partial update" --- it's fine if data doesn't contain
@@ -211,33 +212,42 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${username}`);
   }
 
-  /** Apply for job: update db, returns undefined.
-   *
-   * - username: username applying for job
-   * - jobId: job id
+
+
+  // TODO IMPLEMENT METHOD TO FAVORITE A FACT
+  /** favorite a fact: update db, returns undefined.
+   * - user_id: <- use user id instead
+   * - username: username trying to favorite a fact
+   * - fact_Id: fact id
    **/
 
-  static async applyToJob(username, jobId) {
+  static async applyToJob(user_id,username, fact_Id) {
     const preCheck = await db.query(
-          `SELECT id
-           FROM jobs
-           WHERE id = $1`, [jobId]);
-    const job = preCheck.rows[0];
+          `SELECT fact_id
+           FROM facts
+           WHERE fact_id = $1`, [fact_Id]);
+    const fact = preCheck.rows[0];
 
-    if (!job) throw new NotFoundError(`No job: ${jobId}`);
+    if (!fact) throw new NotFoundError(`No fact: ${fact_Id}`);
 
-    const preCheck2 = await db.query(
-          `SELECT username
-           FROM users
-           WHERE username = $1`, [username]);
-    const user = preCheck2.rows[0];
+    // ADD CONDITION TO CHECK FOR USER ID INSTEAD OF USERNAME
+    // const preCheck2 = await db.query(
+    //       `SELECT username
+    //        FROM users
+    //        WHERE username = $1`, [username]);
+    // const user = preCheck2.rows[0];
 
-    if (!user) throw new NotFoundError(`No username: ${username}`);
+    // if (!user) throw new NotFoundError(`No username: ${username}`);
+
+    // await db.query(
+    //       `INSERT INTO favorites (fact_id, username)
+    //        VALUES ($1, $2)`,
+    //     [fact_Id, username]);
 
     await db.query(
-          `INSERT INTO applications (job_id, username)
+          `INSERT INTO favorites (fact_id, user_id)
            VALUES ($1, $2)`,
-        [jobId, username]);
+        [fact_Id, user_id]);
   }
 }
 

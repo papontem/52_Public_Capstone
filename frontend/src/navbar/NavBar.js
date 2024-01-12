@@ -6,26 +6,30 @@ import {
 	HouseFill,
 } from "react-bootstrap-icons";
 import "./NavBar.css";
-
+import React, { useContext } from "react";
+import AppContext from "../AppContext";
 import { NavLink } from "react-router-dom";
 
 function NavBar() {
+	const {appString, setAppString }= useContext(AppContext);
+	setAppString("GENERAL KENOBI....")
 	return (
 		<nav className="NavBar">
-			<NavLink to="/" >
+			<h3>{appString}</h3>
+			<NavLink to="/">
 				Home
 				<HouseFill color="royalblue" />
 			</NavLink>
-			<NavLink to="/signIn" >
+			<NavLink to="/signIn">
 				<DoorOpenFill color="royalblue" />
 				Sign In
 				<BoxArrowInRight color="royalblue" />
 			</NavLink>
-			<NavLink to="/favorites" >
+			<NavLink to="/favorites">
 				Favorites
 				<StarHalf color="royalblue" />
 			</NavLink>
-			<NavLink to="/random" >
+			<NavLink to="/random">
 				Random Facts
 				<Dice6 color="royalblue" />
 			</NavLink>
