@@ -243,7 +243,7 @@ This info may be useful for when we develop the bell and whistles, and preetiffy
   - id: Integer, Primary Key
   - username: String
   - password: String
-  - date_registered: Date
+  - date_reg: Date MDY
   - is_admin: boolean
 
 - **Favorite**

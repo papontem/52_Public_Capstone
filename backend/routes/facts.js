@@ -16,7 +16,7 @@ const factSearchSchema = require("../schemas/factSearch.json");
 const router = express.Router({ mergeParams: true });
 
 /** POST / { fact } => { fact }
- * 
+ *
  * fact should be { title, fact_date, page_id }
  *
  * Returns { fact_id, title, fact_date, page_id }

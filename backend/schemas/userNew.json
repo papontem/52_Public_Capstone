@@ -16,7 +16,7 @@
 		"date_reg": {
 			"type": "string",
 			"minLength": 6,
-			"maxLength": 8
+			"maxLength": 10
 		},
 		"email": {
 			"type": "string",

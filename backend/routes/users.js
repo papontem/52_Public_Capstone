@@ -14,7 +14,6 @@ const userUpdateSchema = require("../schemas/userUpdate.json");
 
 const router = express.Router();
 
-
 /** POST / { user }  => { user, token }
  *
  * Adds a new user. This is not the registration endpoint --- instead, this is
@@ -28,21 +27,20 @@ const router = express.Router();
  **/
 
 router.post("/", ensureAdmin, async function (req, res, next) {
-  try {
-    const validator = jsonschema.validate(req.body, userNewSchema);
-    if (!validator.valid) {
-      const errs = validator.errors.map(e => e.stack);
-      throw new BadRequestError(errs);
-    }
+	try {
+		const validator = jsonschema.validate(req.body, userNewSchema);
+		if (!validator.valid) {
+			const errs = validator.errors.map((e) => e.stack);
+			throw new BadRequestError(errs);
+		}
 
-    const user = await User.register(req.body);
-    const token = createToken(user);
-    return res.status(201).json({ user, token });
-  } catch (err) {
-    return next(err);
-  }
+		const user = await User.register(req.body);
+		const token = createToken(user);
+		return res.status(201).json({ user, token });
+	} catch (err) {
+		return next(err);
+	}
 });
-
 
 /** GET / => { users: [ {username, date_reg, email }, ... ] }
  *
@@ -51,91 +49,104 @@ router.post("/", ensureAdmin, async function (req, res, next) {
  * Authorization required: admin
  **/
 
-router.get("/", ensureAdmin, async function (req, res, next) {
-  try {
-    const users = await User.findAll();
-    return res.json({ users });
-  } catch (err) {
-    return next(err);
-  }
+// router.get("/", ensureAdmin, async function (req, res, next) {
+router.get("/", async function (req, res, next) {
+	try {
+		const users = await User.findAll();
+		return res.json({ users });
+	} catch (err) {
+		return next(err);
+	}
 });
 
-// TODO: implement in models
 /** GET /[username] => { user }
  *
  * Returns { username, isAdmin, favorites }
- *   where favorites is  [] 
+ *   where favorites is  []
  *
  * Authorization required: admin or same user-as-:username
  **/
 
-router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
-  try {
-    const user = await User.get(req.params.username);
-    return res.json({ user });
-  } catch (err) {
-    return next(err);
-  }
-});
+router.get(
+	"/:username",
+	ensureCorrectUserOrAdmin,
+	async function (req, res, next) {
+		try {
+			const user = await User.get(req.params.username);
+			return res.json({ user });
+		} catch (err) {
+			return next(err);
+		}
+	}
+);
 
-// TODO: implement in models
 /** PATCH /[username] { user } => { user }
  *
  * Data can include:
  *   { username, password, email }
-*
-* Returns { username, email, isAdmin }
-*
-* Authorization required: admin or same-user-as-:username
-**/
+ *
+ * Returns { username, email, isAdmin }
+ *
+ * Authorization required: admin or same-user-as-:username
+ **/
 
-router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
-  try {
-    const validator = jsonschema.validate(req.body, userUpdateSchema);
-    if (!validator.valid) {
-      const errs = validator.errors.map(e => e.stack);
-      throw new BadRequestError(errs);
-    }
-    
-    const user = await User.update(req.params.username, req.body);
-    return res.json({ user });
-  } catch (err) {
-    return next(err);
-  }
-});
+router.patch(
+	"/:username",
+	ensureCorrectUserOrAdmin,
+	async function (req, res, next) {
+		try {
+			const validator = jsonschema.validate(req.body, userUpdateSchema);
+			if (!validator.valid) {
+				const errs = validator.errors.map((e) => e.stack);
+				throw new BadRequestError(errs);
+			}
 
+			const user = await User.update(req.params.username, req.body);
+			return res.json({ user });
+		} catch (err) {
+			return next(err);
+		}
+	}
+);
 
 /** DELETE /[username]  =>  { deleted: username }
  *
  * Authorization required: admin or same-user-as-:username
-**/
+ **/
 
-router.delete("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
-  try {
-    await User.remove(req.params.username);
-    return res.json({ deleted: req.params.username });
-  } catch (err) {
-    return next(err);
-  }
-});
+router.delete(
+	"/:username",
+	ensureCorrectUserOrAdmin,
+	async function (req, res, next) {
+		try {
+			await User.remove(req.params.username);
+			return res.json({ deleted: req.params.username });
+		} catch (err) {
+			return next(err);
+		}
+	}
+);
 
 // TODO: implement in models
 /** POST /[username]/favorites/[id]  { state } => { application }
  *
  * Returns {"favorited": fact_Id}
-*
-* Authorization required: admin or same-user-as-:username
-* */
+ *
+ * Authorization required: admin or same-user-as-:username
+ * */
 
-router.post("/:username/favorites/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
-  try {
-    const fact_id = +req.params.id;
-    await User.favoriteAFact(req.params.username, fact_id);
-    return res.json({ favorited: fact_id });
-  } catch (err) {
-    return next(err);
-  }
-});
-
+router.post(
+	"/:username/favorites/:id",
+	ensureCorrectUserOrAdmin,
+	async function (req, res, next) {
+		try {
+			const fact_id = +req.params.id;
+			await User.favoriteAFact(req.params.username, fact_id);
+			return res.json({ favorited: fact_id });
+		} catch (err) {
+			return next(err);
+		}
+	}
+);
 
 module.exports = router;
