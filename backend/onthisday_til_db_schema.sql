@@ -7,8 +7,7 @@
 
 -- CREATE DATABASE onthisday_til_db;
 CREATE TABLE users (
-  user_id SERIAL PRIMARY KEY,
-  username VARCHAR(25) NOT NULL,
+  username VARCHAR(25) PRIMARY KEY,
   password TEXT NOT NULL,
   date_reg DATE NOT NULL, 
   email TEXT NOT NULL
@@ -30,8 +29,8 @@ CREATE TABLE facts (
 );
 
 CREATE TABLE favorite (
-  user_id INTEGER REFERENCES users ON DELETE CASCADE,
+  username VARCHAR(25) REFERENCES users ON DELETE CASCADE,
   fact_id INTEGER REFERENCES facts ON DELETE CASCADE,
-  PRIMARY KEY (user_id, fact_id)
+  PRIMARY KEY (username, fact_id)
 );
 

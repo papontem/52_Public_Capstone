@@ -49,7 +49,7 @@ class User {
 
   /** Register user with data.
    *
-   * Returns { username, firstName, lastName, email, isAdmin }
+   * Returns { username, date_reg, email, isAdmin }
    *
    * Throws BadRequestError on duplicates.
    **/
@@ -114,50 +114,49 @@ class User {
   }
 
   // TODO 
-  /** Given a use_id, return data about user.
+  /** Given a username, return data about user.
    *
-   * Returns { user_id, username, date_reg, email, is_admin, favorites}
-   *   where jobs is [ ]
+   * Returns { username, date_reg, email, is_admin, favorites}
+   *   where favorites is [ { fact_id, title, fact_date, page_id, }, ... ]
    *
    * Throws NotFoundError if user not found.
    **/
 
   static async get(user_id) {
     const userRes = await db.query(
-          `SELECT user_id,
-                  username,
+          `SELECT username,
                   date_reg,
                   email,
                   is_admin AS "isAdmin"
            FROM users
-           WHERE user_id = $1`,
-        [user_id],
+           WHERE username = $1`,
+        [username],
     );
 
     const user = userRes.rows[0];
 
     if (!user) throw new NotFoundError(`No user: ${user_id}`);
 
-    // IMPLEMENT THE ARRAY OF FAVORITES QUERY
-    // const userApplicationsRes = await db.query(
-    //       `SELECT a.job_id
-    //        FROM applications AS a
-    //        WHERE a.username = $1`, [username]);
 
-    // user.applications = userApplicationsRes.rows.map(a => a.job_id);
+    const userFavoritesRes = await db.query(
+          `SELECT f.fact_id
+           FROM favorites AS f
+           WHERE f.username = $1`, [username]);
+
+    user.favorites = userFavoritesRes.rows.map(f => f.fact_id);
     return user;
   }
 
-  // TODO MAKE SURE USER CAN CHANGE THEIR USERNAME
+
   /** Update user data with `data`.
    *
    * This is a "partial update" --- it's fine if data doesn't contain
    * all the fields; this only changes provided ones.
    *
    * Data can include:
-   *   { firstName, lastName, password, email, isAdmin }
+   *   { password, email, isAdmin }
    *
-   * Returns { username, firstName, lastName, email, isAdmin }
+   * Returns { username, email, isAdmin }
    *
    * Throws NotFoundError if not found.
    *
@@ -174,8 +173,6 @@ class User {
     const { setCols, values } = sqlForPartialUpdate(
         data,
         {
-          firstName: "first_name",
-          lastName: "last_name",
           isAdmin: "is_admin",
         });
     const usernameVarIdx = "$" + (values.length + 1);
@@ -184,8 +181,7 @@ class User {
                       SET ${setCols} 
                       WHERE username = ${usernameVarIdx} 
                       RETURNING username,
-                                first_name AS "firstName",
-                                last_name AS "lastName",
+                                date_reg,
                                 email,
                                 is_admin AS "isAdmin"`;
     const result = await db.query(querySql, [...values, username]);
@@ -216,12 +212,11 @@ class User {
 
   // TODO IMPLEMENT METHOD TO FAVORITE A FACT
   /** favorite a fact: update db, returns undefined.
-   * - user_id: <- use user id instead
    * - username: username trying to favorite a fact
    * - fact_Id: fact id
    **/
 
-  static async applyToJob(user_id,username, fact_Id) {
+  static async favoriteAFact(username, fact_Id) {
     const preCheck = await db.query(
           `SELECT fact_id
            FROM facts
@@ -230,24 +225,21 @@ class User {
 
     if (!fact) throw new NotFoundError(`No fact: ${fact_Id}`);
 
-    // ADD CONDITION TO CHECK FOR USER ID INSTEAD OF USERNAME
-    // const preCheck2 = await db.query(
-    //       `SELECT username
-    //        FROM users
-    //        WHERE username = $1`, [username]);
-    // const user = preCheck2.rows[0];
 
-    // if (!user) throw new NotFoundError(`No username: ${username}`);
+    const preCheck2 = await db.query(
+          `SELECT username
+           FROM users
+           WHERE username = $1`, [username]);
+    const user = preCheck2.rows[0];
 
-    // await db.query(
-    //       `INSERT INTO favorites (fact_id, username)
-    //        VALUES ($1, $2)`,
-    //     [fact_Id, username]);
+    if (!user) throw new NotFoundError(`No username: ${username}`);
 
     await db.query(
-          `INSERT INTO favorites (fact_id, user_id)
+          `INSERT INTO favorites (fact_id, username)
            VALUES ($1, $2)`,
-        [fact_Id, user_id]);
+        [fact_Id, username]);
+
+
   }
 }
 

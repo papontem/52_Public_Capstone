@@ -130,7 +130,7 @@ router.delete("/:username", ensureCorrectUserOrAdmin, async function (req, res, 
 router.post("/:username/favorites/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
     const fact_id = +req.params.id;
-    await User.applyToJob(req.params.username, fact_id);
+    await User.favoriteAFact(req.params.username, fact_id);
     return res.json({ favorited: fact_id });
   } catch (err) {
     return next(err);

@@ -273,15 +273,15 @@ Facts -> Favorites: One-to-Many. Each fact can be a favorite for multiple users.
 Pages -> Facts: One-to-Many. Each page can be a source for multiple facts.
 
     +-----------------+      +-----------------+
-    |      Users      |      |    Favorite     |
+    |      Users      |      |    Favorites    |
     +-----------------+      +-----------------+
-    | id: Integer     |  ->  | user_id: Int    |
-    | username: Str   |      | fact_id: Int    |
-    | password: Str   |      +-----------------+
-    | date_reg: DATE  |                ^
-    | email: email    |                |
+    | username: Str   |  ->  | username: Str   |
+    | password: Str   |      | fact_id: Int    |
+    | date_reg: DATE  |      +-----------------+
+    | email: email    |                ^
     | is_admin: Bool  |                |
-    +-----------------+         +-----------------+
+    +-----------------+                |
+                                +-----------------+
     +--------------------+      |      Facts      |
     |      Pages         |      +-----------------+
     +--------------------+      | id: Integer     |
