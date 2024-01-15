@@ -1,22 +1,29 @@
 // OnThisDay.js
+// react essential components
+import React, { useContext, useState, useEffect, useCallback } from "react";
+import AppContext from "./AppContext";
 
-import React, { useState, useEffect, useCallback } from "react";
-import "./OnThisDay.css";
+// essential logic components
+import useAxios from "./hooks/useAxios.js";
+import todayDateGen from "./helpers/todayDateGen.js";
+import apiSettings from "./helpers/apiSettings.js";
+
+// child components
 import DateForm from "./DateForm.js";
 import DataResults from "./DataResults.js";
 
 // import axios from "axios"; //debugging
 
-import useAxios from "./hooks/useAxios.js";
-import todayDateGen from "./helpers/todayDateGen.js";
-import apiSettings from "./helpers/apiSettings.js";
+// style components
+import "./OnThisDay.css";
 
 function OnThisDay(props) {
+
 	console.log("OnThisDay Main component start");
 	const { today, defaultMonth, defaultDay } = todayDateGen();
 	const { baseUrl, defaultType } = apiSettings();
 
-	// const todayString = today.toDateString()
+	// const todayString = today.toDateString();
 	// console.log(todayString);
 
 	// console.log(
@@ -142,8 +149,8 @@ function OnThisDay(props) {
 	// }
 
 	return (
-		<main className="App-main">
-			<h2>On This Day:</h2>
+		<div className="OnThisDay">
+			<h2>Select A Day:</h2>
 			{/* <p>
 				Here is a form that you can interact with and fill with the data
 				requiered for having the app make requests.
@@ -171,7 +178,7 @@ function OnThisDay(props) {
 			{loading && <p>Loading...</p>}
 			{error && <p>Error: {error.message}</p>}
 			{!loading && !error && <DataResults data={recentRequest} />}
-		</main>
+		</div>
 	);
 }
 

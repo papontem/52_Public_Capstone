@@ -197,9 +197,9 @@ class OTD_TIL_Api {
 }
 
 // for now, put token ("testuser" / "password" on class)
-// OTD_TIL_Api.token =
-// 	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-// 	"eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTcwNTMzMDA2NH0." +
-// 	"faOxkHCRp4AB5BHuoGVhXDzMjlnEqZS6NMeG8TRXwgU";
+OTD_TIL_Api.token =
+	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+	"eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTcwNTMzMDA2NH0." +
+	"faOxkHCRp4AB5BHuoGVhXDzMjlnEqZS6NMeG8TRXwgU";
 
 export default OTD_TIL_Api;

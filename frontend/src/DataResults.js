@@ -1,4 +1,7 @@
 // DataResults.js
+import React, { useContext } from "react";
+import AppContext from "./AppContext";
+
 import { v4 as uuid } from "uuid";
 import "./DataResults.css";
 /**
@@ -9,15 +12,8 @@ import "./DataResults.css";
  * @Returns JSX rendering syntax for the display of info
  */
 function DataResults({ data = {} }) {
-	// todo filter and assign seperate arrays for the JSX to display for each category
-	/* Progress:
-	 * - [!] All
-	 * 	- [/] Selected
-	 * 	- [ ] Events
-	 * 	- [ ] Holidays
-	 * 	- [ ] Births
-	 * 	- [ ] Deaths
-	 */
+
+	const { appInfo, setAppInfo, api } = useContext(AppContext);
 
 	console.log("DataResults component start");
 	console.log("Recieved data:", data);
@@ -45,9 +41,9 @@ function DataResults({ data = {} }) {
 	return (
 		<div className="OnThisDay-DataResults">
 			<div className="OnThisDay-DataResults-selected">
-				<button>&lt;- </button>
-				<p>selected/curated slideshow</p>
-				<button> -&gt;</button>
+				{/* <button>&lt;- </button> */}
+				<p>selected/curated results:</p>
+				{/* <button> -&gt;</button> */}
 				<ul>
 					{/* Render the facts from the API category: "selected" if they exist*/}
 					{data &&
@@ -60,11 +56,12 @@ function DataResults({ data = {} }) {
 				</ul>
 			</div>
 			<div className="OnThisDay-DataResults-events">
-				<button>&lt;- </button>
-				<p>more events slideshow</p>
-				<button> -&gt;</button>
+				{/* <button>&lt;- </button> */}
+				<p>more events results:</p>
+				{/* <button> -&gt;</button> */}
 				<ul>
-					{/* Render the facts from the API category: "events" if they exist*/}	{data &&
+					{/* Render the facts from the API category: "events" if they exist*/}{" "}
+					{data &&
 						data.events &&
 						data.events.map((factObject, index) => (
 							<li key={uuid()}>
@@ -74,11 +71,12 @@ function DataResults({ data = {} }) {
 				</ul>
 			</div>
 			<div className="OnThisDay-DataResults-holidays">
-				<button>&lt;- </button>
-				<p>holidays slideshow</p>
-				<button> -&gt;</button>
+				{/* <button>&lt;- </button> */}
+				<p>holidays results:</p>
+				{/* <button> -&gt;</button> */}
 				<ul>
-					{/* Render the facts from the API category: "holidays" if they exist*/}	{data &&
+					{/* Render the facts from the API category: "holidays" if they exist*/}{" "}
+					{data &&
 						data.holidays &&
 						data.holidays.map((factObject, index) => (
 							<li key={uuid()}>
@@ -89,11 +87,12 @@ function DataResults({ data = {} }) {
 			</div>
 
 			<div className="OnThisDay-DataResults-births">
-				<button>&lt;- </button>
-				<p>births slideshow</p>
-				<button> -&gt;</button>
+				{/* <button>&lt;- </button> */}
+				<p>births results:</p>
+				{/* <button> -&gt;</button> */}
 				<ul>
-					{/* Render the facts from the API category: "births" if they exist*/}	{data &&
+					{/* Render the facts from the API category: "births" if they exist*/}{" "}
+					{data &&
 						data.births &&
 						data.births.map((factObject, index) => (
 							<li key={uuid()}>
@@ -103,11 +102,12 @@ function DataResults({ data = {} }) {
 				</ul>
 			</div>
 			<div className="OnThisDay-DataResults-deaths">
-				<button>&lt;- </button>
-				<p>deaths slideshow</p>
-				<button> -&gt;</button>
+				{/* <button>&lt;- </button> */}
+				<p>deaths results:</p>
+				{/* <button> -&gt;</button> */}
 				<ul>
-					{/* Render the facts from the API category: "deaths" if they exist*/}	{data &&
+					{/* Render the facts from the API category: "deaths" if they exist*/}{" "}
+					{data &&
 						data.deaths &&
 						data.deaths.map((factObject, index) => (
 							<li key={uuid()}>

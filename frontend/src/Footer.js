@@ -1,8 +1,8 @@
 import { Github, Linkedin, Wikipedia } from "react-bootstrap-icons";
-import logo from "../logo.svg";
+import logo from "./logo.svg";
 // import pam_logo from "./pam_logo.svg";
-import wiki_logo from "../wiki_logo.svg";
-import wiki_logo2 from "../Wikipedia-logo-v2.svg.png";
+import wiki_logo from "./wiki_logo.svg";
+import wiki_logo2 from "./Wikipedia-logo-v2.svg.png";
 import "./Footer.css";
 
 function Footer() {
@@ -11,7 +11,7 @@ function Footer() {
 			<section className="Footer_Content">
 				<div className="Footer_Content_PAM_creds">
 					{/* <img src={pam_logo} className="App-logo" alt="logo" /> */}
-					<p>&copy; Phedias A.M. | All Rights Reserved</p>
+					<p> Phedias A.M. | Open Source!</p>
 					{/* PAM'S Socials */}
 					<div>
 						<a href="https://github.com/papontem">

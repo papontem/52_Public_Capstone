@@ -1,21 +1,29 @@
+// react essential components
+import React, { useContext, useEffect } from "react";
+import AppContext from "./AppContext";
+
+// react-router-dom essential components
+import { NavLink } from "react-router-dom";
+
+// styling components
+import "./NavBar.css";
 import {
 	Dice6,
 	DoorOpenFill,
+	Star,
 	StarHalf,
 	BoxArrowInRight,
 	HouseFill,
 } from "react-bootstrap-icons";
-import "./NavBar.css";
-import React, { useContext } from "react";
-import AppContext from "../AppContext";
-import { NavLink } from "react-router-dom";
 
-function NavBar() {
-	const {appString, setAppString }= useContext(AppContext);
-	setAppString("GENERAL KENOBI....")
+export default function NavBar() {
+	const { appInfo, api, user } = useContext(AppContext);
+
+	console.log("NavBar Component Context:", appInfo, api, user);
+
 	return (
 		<nav className="NavBar">
-			<h3>{appString}</h3>
+			<h3>{appInfo}</h3>
 			<NavLink to="/">
 				Home
 				<HouseFill color="royalblue" />
@@ -25,10 +33,20 @@ function NavBar() {
 				Sign In
 				<BoxArrowInRight color="royalblue" />
 			</NavLink>
-			<NavLink to="/favorites">
-				Favorites
-				<StarHalf color="royalblue" />
+
+			<NavLink to="/facts">
+				Facts
+				<Star color="royalblue" />
 			</NavLink>
+
+			{user && (
+				<NavLink to="/favorites">
+					Favorites
+					<StarHalf color="royalblue" />
+				</NavLink>
+			)}
+
+
 			<NavLink to="/random">
 				Random Facts
 				<Dice6 color="royalblue" />
@@ -36,8 +54,6 @@ function NavBar() {
 		</nav>
 	);
 }
-
-export default NavBar;
 
 /**
  * 
