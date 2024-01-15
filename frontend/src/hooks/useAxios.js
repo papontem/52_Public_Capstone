@@ -3,7 +3,7 @@ import { useState } from "react"; // remember to import use effect if planning t
 import axios from "axios";
 import { v4 as uuid } from "uuid";
 
-function useAxios(url, options = {}) {
+export default function useAxios(url, options = {}) {
 	const [axiosRequestResponses, setAxiosRequestResponses] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -73,4 +73,4 @@ function useAxios(url, options = {}) {
 	return { axiosRequestResponses, loading, error, addData };
 }
 
-export default useAxios;
+

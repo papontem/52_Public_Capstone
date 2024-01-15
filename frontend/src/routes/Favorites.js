@@ -1,5 +1,5 @@
 
-function Favorites(props) {
+export default function Favorites(props) {
 	return (
 		<>
 			<h2>Favorites</h2>
@@ -7,4 +7,3 @@ function Favorites(props) {
 		</>
 	);
 }
-export default Favorites;

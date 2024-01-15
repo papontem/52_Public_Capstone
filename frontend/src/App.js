@@ -14,7 +14,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // dependent on url route components
 import Home from "./routes/Home.js";
-import SignIn from "./routes/SignIn.js";
+import SignIn from "./routes/SignUp.js";
+import LogIn from "./routes/LogIn.js";
 import Favorites from "./routes/Favorites.js";
 import Random from "./routes/Random.js";
 import OnThisDay from "./OnThisDay.js";
@@ -61,7 +62,8 @@ function App() {
 					<Header />
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="/signIn" element={<SignIn />} />
+						<Route path="/signUp" element={<SignIn />} />
+						<Route path="/logIn" element={<LogIn />} />
 						<Route path="/facts" element={<OnThisDay />} />
 						<Route path="/favorites" element={<Favorites />} />
 						<Route path="/random" element={<Random />} />

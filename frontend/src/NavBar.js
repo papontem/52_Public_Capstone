@@ -9,10 +9,12 @@ import { NavLink } from "react-router-dom";
 import "./NavBar.css";
 import {
 	Dice6,
+	DoorOpen,
 	DoorOpenFill,
 	Star,
 	StarHalf,
 	BoxArrowInRight,
+	BoxArrowInLeft,
 	HouseFill,
 } from "react-bootstrap-icons";
 
@@ -28,9 +30,15 @@ export default function NavBar() {
 				Home
 				<HouseFill color="royalblue" />
 			</NavLink>
-			<NavLink to="/signIn">
+			<NavLink to="/logIn">
+				<BoxArrowInLeft color="royalblue" />
+				Log In
+				<DoorOpen color="royalblue" />
+			</NavLink>
+
+			<NavLink to="/signUp">
 				<DoorOpenFill color="royalblue" />
-				Sign In
+				Sign Up
 				<BoxArrowInRight color="royalblue" />
 			</NavLink>
 
@@ -45,7 +53,6 @@ export default function NavBar() {
 					<StarHalf color="royalblue" />
 				</NavLink>
 			)}
-
 
 			<NavLink to="/random">
 				Random Facts
