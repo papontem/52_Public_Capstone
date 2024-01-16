@@ -16,16 +16,11 @@ export default function Home(props) {
 			<p>This IS The homepage</p>
 			<p>Welcome to the Today I learned: On This Day React App!</p>
 
-			{!user ? (
-				<p>
-					You may Log in to start favoriting facts and pages, within just this
-					web app ... or jump right in and run querys on wikipedia's onthisday
-					api endpoint.
-				</p>
-			) : (
+			{user && user.username != "" ? (
 				<p>Welcome Back {user.username} !</p>
+			) : (
+				<></>
 			)}
-			
 		</div>
 	);
 }

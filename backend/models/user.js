@@ -112,7 +112,7 @@ class User {
 	 * Throws NotFoundError if user not found.
 	 **/
 
-	static async get(user_id) {
+	static async get(username) {
 		const userRes = await db.query(
 			`SELECT username,
                   date_reg,
@@ -125,7 +125,7 @@ class User {
 
 		const user = userRes.rows[0];
 
-		if (!user) throw new NotFoundError(`No user: ${user_id}`);
+		if (!user) throw new NotFoundError(`No user: ${username}`);
 
 		const userFavoritesRes = await db.query(
 			`SELECT f.fact_id

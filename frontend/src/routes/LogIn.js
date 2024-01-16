@@ -1,17 +1,17 @@
 // LogIn.js
-
-import React, { useState, useEffect } from "react";
-// import { useHistory } from "react-router-dom"; // router V5
+// react essential components
+import React, { useContext, useState, useEffect } from "react";
+import AppContext from "../AppContext";
 import { useNavigate } from "react-router-dom"; // router V6
 
 import "./LogIn.css";
 export default function LogIn(props) {
-	// const history = useHistory(); // router V5
+	const { appInfo, api, user, login } = useContext(AppContext);
 	const navigate = useNavigate(); // router V6
 
 	const [loginFormData, setLoginFormData] = useState({
-		username: "",
-		password: "",
+		username: "testuser",
+		password: "password",
 	});
 
 	const handleLoginFormDataChange = (e) => {
@@ -27,8 +27,11 @@ export default function LogIn(props) {
 		// console debuggin cus im in a rush
 		console.log(e);
 		console.log("loginFormData:", loginFormData);
-		// history.push("/");
-		// navigate('/');
+
+		// CALL API METHOD TO LOGIN
+		login(loginFormData);
+
+		navigate("/"); //ROUTER V6
 	};
 
 	useEffect(() => {

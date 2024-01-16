@@ -22,52 +22,92 @@ import OnThisDay from "./OnThisDay.js";
 
 function App() {
 	const api = OTD_TIL_Api;
-	const [token, setToken] = useState(api.token);
+
 	const [appInfo, setAppInfo] = useState();
-	const [user, setUser] = useState(false);
-	let localUser = JSON.parse(localStorage.getItem("user"));
+	const [isLoading, setIsLoading] = useState(false);
 
-	// const [isLoading, setIsLoading] = useState(false);
-	// console.log("api:", OTD_TIL_Api);
-	// console.log("api token:", OTD_TIL_Api.token);
-
-	// put api token in local storage
-
-	useEffect(() => {
-		console.log("component mounting, retrieving possible local user info");
-
-		console.log(
-			"--------------------\n",
-			"localStorage user:",
-			JSON.parse(localStorage.getItem("user"))
-		);
-		// check local storage for user credentials
-		if (!localUser) {
+	const [token, setToken] = useState(api.token);
+	const [user, setUser] = useState({
+		username: "",
+		date_reg: "",
+		email: "",
+		isAdmin: false,
+	});
+	// const [user, setUser] = useState({
+	// 	username: "testuser",
+	// 	date_reg: "2024-12-29",
+	// 	email: "testuser@testuser.com",
+	// 	isAdmin: false,
+	// });
+	// login user
+	async function login(loginFormData) {
+		setIsLoading(true); // Set isLoading to true before making changes
+		const res = await api.authUser(loginFormData);
+		if (res.token) {
+			const { username } = loginFormData;
+			const userRes = await api.getUser(username);
+			// set the current user in state and local storage
+			setUser({ ...userRes.user });
 			localStorage.setItem("user", JSON.stringify(user));
-		} else {
-			// attempt to log user in....
 
-			// and pass their info down appContext
-			setUser({ ...localUser });
+			setToken(res.token);
+			api.token = token;
+			localStorage.setItem("token", JSON.stringify(token));
 		}
-	}, []);
+		setIsLoading(false);
+	}
+
+	// useEffect(() => {
+	// 	console.log("component mounting, retrieving possible local user info");
+
+	// 	console.log(
+	// 		"--------------------\n",
+	// 		"localStorage user:",
+	// 		JSON.parse(localStorage.getItem("user"))
+	// 	);
+
+	// 	// check local storage for user credentials
+	// 	let localUser = JSON.parse(localStorage.getItem("user"));
+
+	// 	if (!localUser && Object.keys(localUser).length === 0) {
+	// 		localStorage.setItem("user", JSON.stringify(user));
+	// 	} else {
+	// 		// attempt to log user in....
+
+	// 		// and pass their info down appContext passed states
+	// 		setUser({ ...localUser });
+	// 	}
+	// }, []);
 	// make a pre request to wiki foundation feed api server to touch it before making other taxing requests
 
 	return (
 		<AppContext.Provider
-			value={{ appInfo, setAppInfo, api, token, setToken, user, setUser }}>
+			value={{
+				appInfo,
+				setAppInfo,
+				api,
+				token,
+				setToken,
+				user,
+				setUser,
+				login,
+			}}>
 			<div className="App">
 				<BrowserRouter>
 					<NavBar />
 					<Header />
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/signUp" element={<SignIn />} />
-						<Route path="/logIn" element={<LogIn />} />
-						<Route path="/facts" element={<OnThisDay />} />
-						<Route path="/favorites" element={<Favorites />} />
-						<Route path="/random" element={<Random />} />
-					</Routes>
+					{isLoading ? (
+						<p>Loading ..... </p>
+					) : (
+						<Routes>
+							<Route path="/" element={<Home />} />
+							<Route path="/signUp" element={<SignIn />} />
+							<Route path="/logIn" element={<LogIn />} />
+							<Route path="/facts" element={<OnThisDay />} />
+							<Route path="/favorites" element={<Favorites />} />
+							<Route path="/random" element={<Random />} />
+						</Routes>
+					)}
 				</BrowserRouter>
 
 				<Footer />

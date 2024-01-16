@@ -1,21 +1,54 @@
 // SignIn.js
 
+import React, { useState, useEffect } from "react";
+// import { useHistory } from "react-router-dom"; // router V5
+import { useNavigate } from "react-router-dom"; // router V6
+
 import "./SignUp.css";
 
 export default function SignUp(props) {
+	const navigate = useNavigate(); // router V6
+	const [signUpFormData, setSignUpFormData] = useState({
+		username: "",
+		password: "",
+		email: "",
+	});
+
+	const handleSignUpFormDataChange = (e) => {
+		const { name, value } = e.target;
+		setSignUpFormData((previoussignUpFormData) => ({
+			...previoussignUpFormData,
+			[name]: value,
+		}));
+	};
+
+	const handleSignUpSubmit = (e) => {
+		e.preventDefault();
+		// console debuggin cus im in a rush
+		console.log(e);
+		console.log("signUpFormData:", signUpFormData);
+		// CALL API METHOD TO REGISTER
+		
+		navigate("/"); // router V6
+	};
+
+	useEffect(() => {
+		console.log("SignUp.js state:", {
+			signUpFormData,
+		});
+	}, [signUpFormData]);
 	return (
 		<div className="SignUp">
 			<h2>Sign Up</h2>
 			<p>THis iS tHE Sign Up PAge</p>
-			{/* <form className="SignupForm" onSubmit={handleSignupSubmit}> */}
-			<form className="SignupForm">
+			<form className="SignUpForm" onSubmit={handleSignUpSubmit}>
 				<label htmlFor="username">
 					Username:
 					<input
 						type="text"
 						name="username"
-						// value={signupFormData.username}
-						// onChange={handleSignupFormDataChange}
+						value={signUpFormData.username}
+						onChange={handleSignUpFormDataChange}
 						placeholder="Username"
 						required
 					/>
@@ -25,8 +58,8 @@ export default function SignUp(props) {
 					<input
 						type="password"
 						name="password"
-						// value={signupFormData.password}
-						// onChange={handleSignupFormDataChange}
+						value={signUpFormData.password}
+						onChange={handleSignUpFormDataChange}
 						placeholder="Password"
 						required
 					/>
@@ -37,8 +70,8 @@ export default function SignUp(props) {
 					<input
 						type="email"
 						name="email"
-						// value={signupFormData.email}
-						// onChange={handleSignupFormDataChange}
+						value={signUpFormData.email}
+						onChange={handleSignUpFormDataChange}
 						placeholder="Email"
 						required
 					/>

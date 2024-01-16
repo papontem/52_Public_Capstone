@@ -94,7 +94,7 @@ class OTD_TIL_Api {
 	 */
 	static async authUser(creds) {
 		console.log("OTD_TIL_Api.authUser() ");
-
+		console.log("creds:", creds);
 		// POST /auth/token:  { username, password } => { token }
 		let res = await this.request(`auth/token`, creds, "post");
 		console.log("RES:", res);
@@ -148,7 +148,7 @@ class OTD_TIL_Api {
 		console.log("OTD_TIL_Api.getUser() ", "sent username:", username);
 		// GET /users/[username] => { user }
 		let res = await this.request(`users/${username}`);
-		console.log("RES:", res);
+		console.log("getUser RES:", res);
 		return res;
 	}
 

@@ -1,7 +1,15 @@
 .LogIn {
-    color: gold;
+	color: gold;
 }
 .LogIn p {
-    font-weight: bold;
-    text-align: center;
+	font-weight: bold;
+	text-align: center;
+}
+.LogIn form {
+	margin: 10px;
+	padding: 5px;
+}
+.LogIn form label {
+    display: block;
+    margin: 5px;
 }
