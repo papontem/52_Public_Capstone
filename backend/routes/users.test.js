@@ -213,8 +213,6 @@ describe("GET /users/:username", function () {
     expect(resp.body).toEqual({
       user: {
         username: "u1",
-        firstName: "U1F",
-        lastName: "U1L",
         email: "user1@user.com",
         isAdmin: false,
         applications: [testJobIds[0]],
@@ -250,15 +248,13 @@ describe("PATCH /users/:username", () => {
     const resp = await request(app)
         .patch(`/users/u1`)
         .send({
-          firstName: "New",
+          email: "NewUser1@user.com",
         })
         .set("authorization", `Bearer ${adminToken}`);
     expect(resp.body).toEqual({
       user: {
         username: "u1",
-        firstName: "New",
-        lastName: "U1L",
-        email: "user1@user.com",
+        email: "NewUser1@user.com",
         isAdmin: false,
       },
     });
@@ -268,15 +264,13 @@ describe("PATCH /users/:username", () => {
     const resp = await request(app)
         .patch(`/users/u1`)
         .send({
-          firstName: "New",
+          email: "NewUser1@user.com",
         })
         .set("authorization", `Bearer ${u1Token}`);
     expect(resp.body).toEqual({
       user: {
         username: "u1",
-        firstName: "New",
-        lastName: "U1L",
-        email: "user1@user.com",
+        email: "NewUser1@user.com",
         isAdmin: false,
       },
     });
@@ -286,7 +280,7 @@ describe("PATCH /users/:username", () => {
     const resp = await request(app)
         .patch(`/users/u1`)
         .send({
-          firstName: "New",
+          email: "NewUser1@user.com",
         })
         .set("authorization", `Bearer ${u2Token}`);
     expect(resp.statusCode).toEqual(401);
@@ -296,7 +290,7 @@ describe("PATCH /users/:username", () => {
     const resp = await request(app)
         .patch(`/users/u1`)
         .send({
-          firstName: "New",
+          email: "NewUser1@user.com",
         });
     expect(resp.statusCode).toEqual(401);
   });
@@ -305,7 +299,7 @@ describe("PATCH /users/:username", () => {
     const resp = await request(app)
         .patch(`/users/nope`)
         .send({
-          firstName: "Nope",
+          email: "Nope1@user.com",
         })
         .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(404);
@@ -315,12 +309,13 @@ describe("PATCH /users/:username", () => {
     const resp = await request(app)
         .patch(`/users/u1`)
         .send({
-          firstName: 42,
+          email: "this is not an email",
         })
         .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(400);
   });
 
+  // TODO
   test("works: can set new password", async function () {
     const resp = await request(app)
         .patch(`/users/u1`)

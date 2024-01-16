@@ -14,7 +14,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // dependent on url route components
 import Home from "./routes/Home.js";
-import SignIn from "./routes/SignUp.js";
+import SignUp from "./routes/SignUp.js";
 import LogIn from "./routes/LogIn.js";
 import Favorites from "./routes/Favorites.js";
 import Random from "./routes/Random.js";
@@ -40,7 +40,7 @@ function App() {
 	// 	isAdmin: false,
 	// });
 
-	// login user
+	// login - get user
 	async function login(loginFormData) {
 		setIsLoading(true); // Set isLoading to true before making changes
 		const res = await api.authUser(loginFormData);
@@ -48,6 +48,22 @@ function App() {
 			const { username } = loginFormData;
 			const userRes = await api.getUser(username);
 			// set the current user in state and local storage
+			setUser({ ...userRes.user });
+			// localStorage.setItem("user", JSON.stringify(userRes.user));
+
+			setToken(res.token);
+			// localStorage.setItem("token", JSON.stringify(res.token));
+		}
+		setIsLoading(false);
+	}
+
+	// signup - register user
+	async function signup(signupFormData) {
+		setIsLoading(true); // Set isLoading to true before making changes
+		const res = await api.registerUser(signupFormData);
+		if (res.token) {
+			const { username } = signupFormData;
+			const userRes = await api.getUser(username);
 			setUser({ ...userRes.user });
 			// localStorage.setItem("user", JSON.stringify(userRes.user));
 
@@ -71,6 +87,7 @@ function App() {
 		setIsLoading(false);
 	}
 
+	// any time that our user and token states change we also set them in local storage
 	useEffect(() => {
 		// let localUser = JSON.parse(localStorage.getItem("user"));
 		localStorage.setItem("user", JSON.stringify(user));
@@ -89,6 +106,7 @@ function App() {
 				user,
 				setUser,
 				login,
+				signup,
 				logout
 			}}>
 			<div className="App">
@@ -100,8 +118,8 @@ function App() {
 					) : (
 						<Routes>
 							<Route path="/" element={<Home />} />
-							<Route path="/signUp" element={<SignIn />} />
 							<Route path="/logIn" element={<LogIn />} />
+							<Route path="/signUp" element={<SignUp />} />
 							<Route path="/facts" element={<OnThisDay />} />
 							<Route path="/favorites" element={<Favorites />} />
 							<Route path="/random" element={<Random />} />

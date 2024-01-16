@@ -113,6 +113,7 @@ class User {
 	 **/
 
 	static async get(username) {
+		// console.log("MODELS USER GET:", username);
 		const userRes = await db.query(
 			`SELECT username,
                   date_reg,
@@ -127,14 +128,16 @@ class User {
 
 		if (!user) throw new NotFoundError(`No user: ${username}`);
 
-		const userFavoritesRes = await db.query(
-			`SELECT f.fact_id
-           FROM favorites AS f
-           WHERE f.username = $1`,
-			[username]
-		);
+		// TODO FACT LIST -----------------------------------
+		// const userFavoritesRes = await db.query(
+		// 	`SELECT f.fact_id
+        //    FROM favorites AS f
+        //    WHERE f.username = $1`,
+		// 	[username]
+		// );
 
-		user.favorites = userFavoritesRes.rows.map((f) => f.fact_id);
+		// user.favorites = userFavoritesRes.rows.map((f) => f.fact_id);
+		user.favorites = []
 		return user;
 	}
 

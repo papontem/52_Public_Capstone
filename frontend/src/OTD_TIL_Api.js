@@ -111,7 +111,7 @@ class OTD_TIL_Api {
 
 	/** post Create a user thats trying to signup
 	 *
-	 * TODO: GET CURRENT DATE and send it ! YYYY/MM/DD
+	 * TODO: GET CURRENT DATE and send it as YYYY/MM/DD
 	 */
 	static async registerUser(creds) {
 		console.log("OTD_TIL_Api.registerUser() ");
@@ -121,10 +121,13 @@ class OTD_TIL_Api {
 		// Format the current date as YYYY/MM/DD
 		const currentDate = new Date();
 		const formattedDate = currentDate.toLocaleDateString("en-US", {
+			year: "numeric",
 			month: "2-digit",
 			day: "2-digit",
-			year: "numeric",
 		});
+
+		// TODO fix format
+		// console.log("formattedDate for date_ref:", formattedDate); // its still in format MM/DD/YYYY
 
 		// Assign the formatted date to the user object
 		user.date_reg = formattedDate;
@@ -169,16 +172,16 @@ class OTD_TIL_Api {
 	}
 
 	/**
-	 * post make user apply to a fact add fact to their application list
-	 * POST users/[username]/facts/[id]  { state } => {"applied": factId}
+	 * post make user apply to a fact add fact to their favorites list
+	 * POST users/[username]/facts/[id]  { state } => {"favorited": fact_Id}
 	 * 	Returns objtc to notify of application suceess
 	 */
-	static async applyToFact(username, factID) {
+	static async favoriteAFact(username, factID) {
 		console.log(
-			"OTD_TIL_Api.applyToFact() ",
-			"sent username:",
+			"OTD_TIL_Api.favoriteAFact() ",
+			"Sent username:",
 			username,
-			"Send FactID:",
+			"Sent FactID:",
 			factID
 		);
 
@@ -191,7 +194,7 @@ class OTD_TIL_Api {
 			console.log("RES:", res);
 			return res;
 		} catch (e) {
-			console.error("ERROR attempting to apply to fact:", e);
+			console.error("ERROR attempting to favorite a fact:", e);
 			return e;
 		}
 	}

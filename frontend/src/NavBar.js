@@ -1,5 +1,5 @@
 // react essential components
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import AppContext from "./AppContext";
 
 // react-router-dom essential components
@@ -35,17 +35,21 @@ export default function NavBar() {
 				Home
 				<HouseFill color="royalblue" />
 			</NavLink>
-			<NavLink to="/logIn">
-				<DoorOpen color="royalblue" />
-				Log In
-				<BoxArrowInRight color="royalblue" />
-			</NavLink>
+			{!token && (
+				<>
+					<NavLink to="/logIn">
+						<DoorOpen color="royalblue" />
+						Log In
+						<BoxArrowInRight color="royalblue" />
+					</NavLink>
 
-			<NavLink to="/signUp">
-				<DoorOpenFill color="royalblue" />
-				Sign Up
-				<BoxArrowInUp color="royalblue" />
-			</NavLink>
+					<NavLink to="/signUp">
+						<DoorOpenFill color="royalblue" />
+						Sign Up
+						<BoxArrowInUp color="royalblue" />
+					</NavLink>
+				</>
+			)}
 
 			<NavLink to="/facts">
 				<Search color="royalblue" />

@@ -3,8 +3,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import AppContext from "../AppContext";
 import { useNavigate } from "react-router-dom"; // router V6
-
+// style components
 import "./LogIn.css";
+
 export default function LogIn(props) {
 	const { appInfo, api, user, login } = useContext(AppContext);
 	const navigate = useNavigate(); // router V6

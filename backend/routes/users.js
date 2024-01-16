@@ -71,6 +71,8 @@ router.get(
 	"/:username",
 	ensureCorrectUserOrAdmin,
 	async function (req, res, next) {
+
+		// console.log("ROUTES USERS PARAMS:", req.params);
 		try {
 			const user = await User.get(req.params.username);
 			return res.json({ user });

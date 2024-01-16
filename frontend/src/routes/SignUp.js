@@ -1,12 +1,15 @@
 // SignIn.js
 
-import React, { useState, useEffect } from "react";
-// import { useHistory } from "react-router-dom"; // router V5
+import React, { useContext, useState, useEffect } from "react";
+import AppContext from "../AppContext";
 import { useNavigate } from "react-router-dom"; // router V6
 
 import "./SignUp.css";
 
 export default function SignUp(props) {
+	
+	const { appInfo, api, user, signup } = useContext(AppContext);
+
 	const navigate = useNavigate(); // router V6
 	const [signUpFormData, setSignUpFormData] = useState({
 		username: "",
@@ -28,7 +31,7 @@ export default function SignUp(props) {
 		console.log(e);
 		console.log("signUpFormData:", signUpFormData);
 		// CALL API METHOD TO REGISTER
-		
+		signup(signUpFormData)
 		navigate("/"); // router V6
 	};
 
@@ -37,6 +40,7 @@ export default function SignUp(props) {
 			signUpFormData,
 		});
 	}, [signUpFormData]);
+	
 	return (
 		<div className="SignUp">
 			<h2>Sign Up</h2>

@@ -79,8 +79,6 @@ describe("POST /auth/register", function () {
         .post("/auth/register")
         .send({
           username: "new",
-          firstName: "first",
-          lastName: "last",
           password: "password",
           email: "new@email.com",
         });
@@ -104,8 +102,6 @@ describe("POST /auth/register", function () {
         .post("/auth/register")
         .send({
           username: "new",
-          firstName: "first",
-          lastName: "last",
           password: "password",
           email: "not-an-email",
         });

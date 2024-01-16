@@ -27,8 +27,6 @@ describe("authenticate", function () {
     const user = await User.authenticate("u1", "password1");
     expect(user).toEqual({
       username: "u1",
-      firstName: "U1F",
-      lastName: "U1L",
       email: "u1@email.com",
       isAdmin: false,
     });
@@ -58,8 +56,6 @@ describe("authenticate", function () {
 describe("register", function () {
   const newUser = {
     username: "new",
-    firstName: "Test",
-    lastName: "Tester",
     email: "test@test.com",
     isAdmin: false,
   };
@@ -114,15 +110,11 @@ describe("findAll", function () {
     expect(users).toEqual([
       {
         username: "u1",
-        firstName: "U1F",
-        lastName: "U1L",
         email: "u1@email.com",
         isAdmin: false,
       },
       {
         username: "u2",
-        firstName: "U2F",
-        lastName: "U2L",
         email: "u2@email.com",
         isAdmin: false,
       },
@@ -137,8 +129,6 @@ describe("get", function () {
     let user = await User.get("u1");
     expect(user).toEqual({
       username: "u1",
-      firstName: "U1F",
-      lastName: "U1L",
       email: "u1@email.com",
       isAdmin: false,
       applications: [testJobIds[0]],
@@ -179,8 +169,6 @@ describe("update", function () {
     });
     expect(job).toEqual({
       username: "u1",
-      firstName: "U1F",
-      lastName: "U1L",
       email: "u1@email.com",
       isAdmin: false,
     });
@@ -231,7 +219,7 @@ describe("remove", function () {
   });
 });
 
-/************************************** applyToJob */
+/************************************** TODO: applyToJob -> favoriteAFact */
 
 describe("applyToJob", function () {
   test("works", async function () {
