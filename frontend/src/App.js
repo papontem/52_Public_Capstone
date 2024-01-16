@@ -39,6 +39,7 @@ function App() {
 	// 	email: "testuser@testuser.com",
 	// 	isAdmin: false,
 	// });
+
 	// login user
 	async function login(loginFormData) {
 		setIsLoading(true); // Set isLoading to true before making changes
@@ -48,37 +49,34 @@ function App() {
 			const userRes = await api.getUser(username);
 			// set the current user in state and local storage
 			setUser({ ...userRes.user });
-			localStorage.setItem("user", JSON.stringify(user));
+			// localStorage.setItem("user", JSON.stringify(userRes.user));
 
 			setToken(res.token);
-			api.token = token;
-			localStorage.setItem("token", JSON.stringify(token));
+			// localStorage.setItem("token", JSON.stringify(res.token));
 		}
 		setIsLoading(false);
 	}
 
-	// useEffect(() => {
-	// 	console.log("component mounting, retrieving possible local user info");
+	// logout user
+	function logout() {
+		setIsLoading(true);
+		// ERASE THE EVIDENCE
+		setUser({
+			username: "",
+			date_reg: "",
+			email: "",
+			isAdmin: false,
+		})
+		setToken("")
+		setIsLoading(false);
+	}
 
-	// 	console.log(
-	// 		"--------------------\n",
-	// 		"localStorage user:",
-	// 		JSON.parse(localStorage.getItem("user"))
-	// 	);
-
-	// 	// check local storage for user credentials
-	// 	let localUser = JSON.parse(localStorage.getItem("user"));
-
-	// 	if (!localUser && Object.keys(localUser).length === 0) {
-	// 		localStorage.setItem("user", JSON.stringify(user));
-	// 	} else {
-	// 		// attempt to log user in....
-
-	// 		// and pass their info down appContext passed states
-	// 		setUser({ ...localUser });
-	// 	}
-	// }, []);
-	// make a pre request to wiki foundation feed api server to touch it before making other taxing requests
+	useEffect(() => {
+		// let localUser = JSON.parse(localStorage.getItem("user"));
+		localStorage.setItem("user", JSON.stringify(user));
+		localStorage.setItem("token", JSON.stringify(token));
+		api.token = token;
+	}, [user, token]);
 
 	return (
 		<AppContext.Provider
@@ -91,6 +89,7 @@ function App() {
 				user,
 				setUser,
 				login,
+				logout
 			}}>
 			<div className="App">
 				<BrowserRouter>
