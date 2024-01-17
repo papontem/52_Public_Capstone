@@ -92,26 +92,46 @@ function App() {
 		setIsLoading(false);
 	}
 
+	// POST /pages { page } =>  { page }
+	// pageDataObject should be { page_id, page_url, wikibase_item }
 	async function addPageToDb(pageData) {
-		setIsLoading(true);
+		// setIsLoading(true);
+		const pageDBObject = {
+			page_id: pageData.pageid,
+			page_url: pageData.content_urls.desktop.page,
+			wikibase_item: pageData.wikibase_item
+		}
 		try {
-			const res = await api.createAPage(pageData);
+			const res = await api.createAPage(pageDBObject);
 			console.log("Page created successfully:", res);
 		} catch (error) {
 			console.error("Error creating page:", error);
 		}
-		setIsLoading(false);
+		// setIsLoading(false);
 	}
 
+	// POST facts/ { fact } => { fact }
+	// factDataObject should be { text_title, fact_date, page_id }
 	async function addFactToDb(factData) {
-		setIsLoading(true);
+		console.log("App.js ADD FACT TO DB:", factData);
+		// setIsLoading(true);
+		// TODO need to add correct date, maybe by bringing up date and form data up from the OnThisDay component
+		const factDBObject = {
+			text_title: factData.text, 
+			fact_date: factData.year,
+			page_id: factData.pages[0].pageid
+		}
 		try {
-			const res = await api.createAFact(factData);
-			console.log("Fact created successfully:", res);
+			// find out if page has already been created before fact inclusion, if not create the page
+			const factParentPage = factData.pages[0]
+			console.log("PARENT PAGE OF FACT:", factParentPage);
+
+			// const res = await api.createAFact(factDBObject);
+			// console.log("Fact created successfully:", res);
 		} catch (error) {
 			console.error("Error creating fact:", error);
 		}
-		setIsLoading(false);
+		// setIsLoading(false);
 	}
 
 	// any time that our user and token states change we also set them in local storage
@@ -138,7 +158,7 @@ function App() {
 				signup,
 				logout,
 				addPageToDb,
-				addFactToDb
+				addFactToDb,
 			}}>
 			<div className="App">
 				<BrowserRouter>

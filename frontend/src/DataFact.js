@@ -10,23 +10,19 @@ function DataFact({ factObject }) {
 		useContext(AppContext);
 	// console.log("DATAFACT context:".api, user, token, addFactToDb, addPageToDb);
 
-
-
-	// add pages from facts sources, if they arent already added, to the db.
-
-	// add fact to db
-
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
+		// logic to handle adding the fact to the database
+		addFactToDb(factObject);
 	};
 
 	return (
-		<li className="DataFact" key={uuid()}>
+		<li className="DataFact" key={factObject.id}>
 			{`${factObject.year}: ${factObject.text}`}
 			{token && user.username !== "" && (
 				<form onSubmit={handleFormSubmit}>
-					<button> add to db </button>
-					<button> favorite </button>
+					<button type="submit">Add fact to DB</button>
+					<button>Favorite</button>
 				</form>
 			)}
 		</li>

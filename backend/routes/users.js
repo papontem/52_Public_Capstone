@@ -50,7 +50,7 @@ router.post("/", ensureAdmin, async function (req, res, next) {
  **/
 // IN THE MEAN TIME
 router.get("/", ensureAdmin, async function (req, res, next) {
-// router.get("/", async function (req, res, next) {
+	// router.get("/", async function (req, res, next) {
 	try {
 		const users = await User.findAll();
 		return res.json({ users });
@@ -71,7 +71,6 @@ router.get(
 	"/:username",
 	ensureCorrectUserOrAdmin,
 	async function (req, res, next) {
-
 		// console.log("ROUTES USERS PARAMS:", req.params);
 		try {
 			const user = await User.get(req.params.username);
@@ -129,7 +128,6 @@ router.delete(
 	}
 );
 
-// TODO: implement in models
 /** POST /[username]/favorites/[id]  { state } => { application }
  *
  * Returns {"favorited": fact_Id}
@@ -138,12 +136,12 @@ router.delete(
  * */
 
 router.post(
-	"/:username/favorites/:id",
+	"/:username/favorites/:fact_id",
 	ensureCorrectUserOrAdmin,
 	async function (req, res, next) {
 		try {
-			const fact_id = +req.params.id;
-			await User.favoriteAFact(req.params.username, fact_id);
+			const { username, fact_id } = req.params;
+			await User.favoriteAFact(username, fact_id);
 			return res.json({ favorited: fact_id });
 		} catch (err) {
 			return next(err);

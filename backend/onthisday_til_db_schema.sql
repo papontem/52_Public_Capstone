@@ -28,7 +28,7 @@ CREATE TABLE facts (
   page_id INTEGER NOT NULL REFERENCES pages ON DELETE CASCADE
 );
 
-CREATE TABLE favorite (
+CREATE TABLE favorites (
   username VARCHAR(25) REFERENCES users ON DELETE CASCADE,
   fact_id INTEGER REFERENCES facts ON DELETE CASCADE,
   PRIMARY KEY (username, fact_id)

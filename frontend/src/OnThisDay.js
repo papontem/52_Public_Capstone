@@ -18,6 +18,7 @@ import DataResults from "./DataResults.js";
 import "./OnThisDay.css";
 
 function OnThisDay(props) {
+	
 	console.log("OnThisDay Main component start");
 	const { today, defaultMonth, defaultDay } = todayDateGen();
 	const { wikiBaseUrl, defaultType } = apiSettings();

@@ -174,13 +174,13 @@ class OTD_TIL_Api {
 	/**
 	 * post a page to our db
 	 * POST /pages { page } =>  { page }
-	 * pageData should be { page_url, wikibase_item }
+	 * pageDataObject should be { page_id, page_url, wikibase_item }
 	 */
-	static async createAPage(pageData) {
-		console.log("OTD_TIL_Api.createAPage()", "Sent pageData:", pageData);
+	static async createAPage(pageDataObject) {
+		console.log("OTD_TIL_Api.createAPage()", "Sent pageDataObject:", pageDataObject);
 		try {
 			// MAKE REQUEST WITH PAGE DATA
-			let res = await this.request(`pages`, pageData, "post");
+			let res = await this.request(`pages`, pageDataObject, "post");
 			console.log("RES:", res);
 			return res;
 		} catch (e) {
@@ -192,13 +192,13 @@ class OTD_TIL_Api {
 	/**
 	 * post a fact to our db
 	 * POST facts/ { fact } => { fact }
-	 * factData should be { title, fact_date, page_id }
+	 * factDataObject should be { text_title, fact_date, page_id }
 	 */
-	static async createAFact(factData) {
-		console.log("OTD_TIL_Api.createAFact()", "Sent factData:", factData);
+	static async createAFact(factDataObject) {
+		console.log("OTD_TIL_Api.createAFact()", "Sent factDataObject:", factDataObject);
 		try {
 			// MAKE REQUEST WITH FACT DATA
-			let res = await this.request(`facts`, factData, "post");
+			let res = await this.request(`facts`, factDataObject, "post");
 			console.log("RES:", res);
 			return res;
 		} catch (e) {

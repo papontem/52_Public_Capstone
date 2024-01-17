@@ -129,15 +129,15 @@ class User {
 		if (!user) throw new NotFoundError(`No user: ${username}`);
 
 		// TODO FACT LIST -----------------------------------
-		// const userFavoritesRes = await db.query(
-		// 	`SELECT f.fact_id
-        //    FROM favorites AS f
-        //    WHERE f.username = $1`,
-		// 	[username]
-		// );
+		const userFavoritesRes = await db.query(
+			`SELECT f.fact_id
+           FROM favorites AS f
+           WHERE f.username = $1`,
+			[username]
+		);
 
-		// user.favorites = userFavoritesRes.rows.map((f) => f.fact_id);
-		user.favorites = []
+		user.favorites = userFavoritesRes.rows.map((f) => f.fact_id);
+		// user.favorites = []
 		return user;
 	}
 
@@ -199,7 +199,6 @@ class User {
 		if (!user) throw new NotFoundError(`No user: ${username}`);
 	}
 
-	// TODO IMPLEMENT METHOD TO FAVORITE A FACT
 	/** favorite a fact: update db, returns undefined.
 	 * - username: username trying to favorite a fact
 	 * - fact_Id: fact id
