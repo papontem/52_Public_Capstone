@@ -3,24 +3,23 @@
   "$id": "http://otdtil.com/factNew.schema.json",
   "type": "object",
   "properties": {
-    "title": {
+    "text_title": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 30
+      "maxLength": 250
     },
     "fact_date":{
       "type":"string",
-      "minLength": 8,
       "maxLength": 10
     },
     "page_id":{
-      "type":"string",
+      "type":"integer",
       "minLength": 1
     }
   },
   "additionalProperties": false,
   "required": [
-    "title",
+    "text_title",
     "fact_date",
     "page_id"
   ]

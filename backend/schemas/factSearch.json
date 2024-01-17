@@ -3,18 +3,17 @@
     "$id": "http://otdtil.com/factSearch.schema.json",
     "type": "object",
     "properties": {
-      "title": {
+      "text_title": {
         "type": "string",
         "minLength": 1,
-        "maxLength": 30
+        "maxLength": 250
       },
       "fact_date":{
         "type":"string",
-        "minLength": 8,
         "maxLength": 10
       },
       "page_id":{
-        "type":"string",
+        "type":"integer",
         "minLength": 1
       }
     },

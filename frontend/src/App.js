@@ -43,8 +43,7 @@ function App() {
 	// 	isAdmin: false,
 	// });
 
-	const[storedFacts, setStoredFacts] = useState([])
-	
+	const [storedFacts, setStoredFacts] = useState([]);
 
 	// login - get user
 	async function login(loginFormData) {
@@ -88,8 +87,30 @@ function App() {
 			date_reg: "",
 			email: "",
 			isAdmin: false,
-		})
-		setToken("")
+		});
+		setToken("");
+		setIsLoading(false);
+	}
+
+	async function addPageToDb(pageData) {
+		setIsLoading(true);
+		try {
+			const res = await api.createAPage(pageData);
+			console.log("Page created successfully:", res);
+		} catch (error) {
+			console.error("Error creating page:", error);
+		}
+		setIsLoading(false);
+	}
+
+	async function addFactToDb(factData) {
+		setIsLoading(true);
+		try {
+			const res = await api.createAFact(factData);
+			console.log("Fact created successfully:", res);
+		} catch (error) {
+			console.error("Error creating fact:", error);
+		}
 		setIsLoading(false);
 	}
 
@@ -99,7 +120,7 @@ function App() {
 		localStorage.setItem("user", JSON.stringify(user));
 		localStorage.setItem("token", JSON.stringify(token));
 		api.token = token;
-	}, [user, token]);
+	}, [user, token, api]);
 
 	return (
 		<AppContext.Provider
@@ -116,6 +137,8 @@ function App() {
 				login,
 				signup,
 				logout,
+				addPageToDb,
+				addFactToDb
 			}}>
 			<div className="App">
 				<BrowserRouter>

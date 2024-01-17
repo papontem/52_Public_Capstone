@@ -114,7 +114,7 @@ class Page {
 
 		const factsRes = await db.query(
 			`SELECT fact_id,
-                    title,
+                    text_title,
                     fact_date,
                     page_id
                 FROM facts
@@ -124,7 +124,7 @@ class Page {
 		);
 
 		page.facts = factsRes.rows;
-
+		// page.facts = []
 		return page;
 	}
 

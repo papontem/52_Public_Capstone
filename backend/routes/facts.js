@@ -17,11 +17,11 @@ const router = express.Router({ mergeParams: true });
 
 /** POST / { fact } => { fact }
  *
- * fact should be { title, fact_date, page_id }
+ * fact should be { text_title, fact_date, page_id }
  *
- * Returns { fact_id, title, fact_date, page_id }
+ * Returns { fact_id, text_title, fact_date, page_id }
  *
- * Authorization required: user or admin 
+ * Authorization required: user or admin
  */
 
 router.post("/", ensureLoggedIn, async function (req, res, next) {
@@ -40,12 +40,12 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 });
 
 /** GET / =>
- *   { facts: [ { fact_id, title, fact_date, page_id }, ...] }
+ *   { facts: [ { fact_id, text_title, fact_date, page_id }, ...] }
  *
  * Can provide search filter in query:
  * - minSalary
  * - hasEquity (true returns only facts with equity > 0, other values ignored)
- * - title (will find case-insensitive, partial matches)
+ * - text_title (will find case-insensitive, partial matches)
 
  * Authorization required: none
  */
@@ -72,7 +72,7 @@ router.get("/", async function (req, res, next) {
 
 /** GET /[fact_Id] => { fact }
  *
- * Returns { fact_id, title, fact_date, page  }
+ * Returns { fact_id, text_title, fact_date, page  }
  *   where page  is { page_id, page_url, wikibase_item }
  *
  * Authorization required: none
@@ -89,9 +89,9 @@ router.get("/:fact_id", async function (req, res, next) {
 
 /** PATCH /[factId]  { fld1, fld2, ... } => { fact }
  *
- * Data can include: { title, salary, equity }
+ * Data can include: { text_title, salary, equity }
  *
- * Returns { id, title, salary, equity, page Handle }
+ * Returns { id, text_title, salary, equity, page Handle }
  *
  * Authorization required: admin
  */

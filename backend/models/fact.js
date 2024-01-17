@@ -9,20 +9,20 @@ const { sqlForPartialUpdate } = require("../helpers/sql");
 class Fact {
 	/** Create a fact (from data), update db, return new fact data.
 	 *
-	 * data should be { title, fact_date, page_id }
+	 * data should be { text_title, fact_date, page_id }
 	 *
-	 * Returns { fact_id, title, fact_date, page_id }
+	 * Returns { fact_id, text_title, fact_date, page_id }
 	 **/
 
 	static async create(data) {
 		const result = await db.query(
-			`INSERT INTO facts (title,
+			`INSERT INTO facts (text_title,
                               fact_date,
                               page_id )
            VALUES ($1, $2, $3)
-           RETURNING fact_id, title, fact_date,
+           RETURNING fact_id, text_title, fact_date,
            page_id`,
-			[data.title, data.fact_date, data.page_id]
+			[data.text_title, data.fact_date, data.page_id]
 		);
 		let fact = result.rows[0];
 
@@ -34,14 +34,14 @@ class Fact {
 	 * searchFilters (all optional):
 	 * - minSalary
 	 * - hasEquity (true returns only facts with equity > 0, other values ignored)
-	 * - title (will find case-insensitive, partial matches)
+	 * - text_title (will find case-insensitive, partial matches)
 	 *
-	 * Returns [{ id, title, salary, equity, page_id, pageName }, ...]
+	 * Returns [{ id, text_title, salary, equity, page_id, pageName }, ...]
 	 * */
 
-	static async findAll({ minSalary, hasEquity, title } = {}) {
+	static async findAll({ minSalary, hasEquity, text_title } = {}) {
 		let query = `SELECT f.id,
-                        f.title,
+                        f.text_title,
                         f.salary,
                         f.equity,
                         f.page_page_id AS "page_id",
@@ -64,9 +64,9 @@ class Fact {
 		//   whereExpressions.push(`equity > 0`);
 		// }
 
-		if (title !== undefined) {
-			queryValues.push(`%${title}%`);
-			whereExpressions.push(`title ILIKE $${queryValues.length}`);
+		if (text_title !== undefined) {
+			queryValues.push(`%${text_title}%`);
+			whereExpressions.push(`text_title ILIKE $${queryValues.length}`);
 		}
 
 		if (whereExpressions.length > 0) {
@@ -75,14 +75,14 @@ class Fact {
 
 		// Finalize query and return results
     // could try to organize by fact_date
-		query += " ORDER BY title";
+		query += " ORDER BY text_title";
 		const factsRes = await db.query(query, queryValues);
 		return factsRes.rows;
 	}
 
 	/** Given a fact id, return data about fact.
 	 *
-	 * Returns { id, title, salary, equity, page_id, page }
+	 * Returns { id, text_title, salary, equity, page_id, page }
 	 *   where page is { page_id, name, description, numEmployees, logoUrl }
 	 *
 	 * Throws NotFoundError if not found.
@@ -91,7 +91,7 @@ class Fact {
 	static async get(fact_id) {
 		const factRes = await db.query(
 			`SELECT fact_id,
-              title,
+              text_title,
               fact_date,
               page_id
            FROM facts
@@ -123,9 +123,9 @@ class Fact {
 	 * This is a "partial update" --- it's fine if data doesn't contain
 	 * all the fields; this only changes provided ones.
 	 *
-	 * Data can include: { title, fact_date, page_id}
+	 * Data can include: { text_title, fact_date, page_id}
 	 *
-	 * Returns { fact_id, title, fact_date, page_id }
+	 * Returns { fact_id, text_title, fact_date, page_id }
 	 *
 	 * Throws NotFoundError if not found.
 	 */
@@ -138,7 +138,7 @@ class Fact {
                       SET ${setCols} 
                       WHERE id = ${idVarIdx} 
                       RETURNING id, 
-                                title, 
+                                text_title, 
                                 fact_date,
                                 page_id`;
 		const result = await db.query(querySql, [...values, fact_id]);
