@@ -5,14 +5,14 @@ import AppContext from "./AppContext";
 import { v4 as uuid } from "uuid";
 import "./DataResults.css";
 /**
- * Function Componenet to display the facts text and year that have been passed to it after their fetch request.
+ * Function Componenet to display the facts text and year that
+ * have been passed to it after their fetch request.
  *
  *
  * @props {*} data array of objects
  * @Returns JSX rendering syntax for the display of info
  */
 function DataResults({ data = {} }) {
-
 	const { appInfo, setAppInfo, api } = useContext(AppContext);
 
 	console.log("DataResults component start");
@@ -60,7 +60,7 @@ function DataResults({ data = {} }) {
 				<p>more events results:</p>
 				{/* <button> -&gt;</button> */}
 				<ul>
-					{/* Render the facts from the API category: "events" if they exist*/}{" "}
+					{/* Render the facts from the API category: "events" if they exist*/}
 					{data &&
 						data.events &&
 						data.events.map((factObject, index) => (
@@ -75,7 +75,7 @@ function DataResults({ data = {} }) {
 				<p>holidays results:</p>
 				{/* <button> -&gt;</button> */}
 				<ul>
-					{/* Render the facts from the API category: "holidays" if they exist*/}{" "}
+					{/* Render the facts from the API category: "holidays" if they exist*/}
 					{data &&
 						data.holidays &&
 						data.holidays.map((factObject, index) => (
@@ -91,7 +91,7 @@ function DataResults({ data = {} }) {
 				<p>births results:</p>
 				{/* <button> -&gt;</button> */}
 				<ul>
-					{/* Render the facts from the API category: "births" if they exist*/}{" "}
+					{/* Render the facts from the API category: "births" if they exist*/}
 					{data &&
 						data.births &&
 						data.births.map((factObject, index) => (
@@ -106,7 +106,7 @@ function DataResults({ data = {} }) {
 				<p>deaths results:</p>
 				{/* <button> -&gt;</button> */}
 				<ul>
-					{/* Render the facts from the API category: "deaths" if they exist*/}{" "}
+					{/* Render the facts from the API category: "deaths" if they exist*/}
 					{data &&
 						data.deaths &&
 						data.deaths.map((factObject, index) => (

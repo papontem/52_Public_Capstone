@@ -10,6 +10,7 @@ function DateForm({
 	handleTypeChange,
 	handleFetchData,
 }) {
+	
 	console.log("DateForm component start");
 	console.log("DateForm component end");
 	return (

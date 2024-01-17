@@ -7,7 +7,7 @@ const jsonschema = require("jsonschema");
 
 const express = require("express");
 const { BadRequestError } = require("../expressError");
-const { ensureAdmin } = require("../middleware/auth");
+const { ensureAdmin, ensureLoggedIn } = require("../middleware/auth");
 const Fact = require("../models/fact");
 const factNewSchema = require("../schemas/factNew.json");
 const factUpdateSchema = require("../schemas/factUpdate.json");
@@ -21,10 +21,10 @@ const router = express.Router({ mergeParams: true });
  *
  * Returns { fact_id, title, fact_date, page_id }
  *
- * Authorization required: admin
+ * Authorization required: user or admin 
  */
 
-router.post("/", ensureAdmin, async function (req, res, next) {
+router.post("/", ensureLoggedIn, async function (req, res, next) {
 	try {
 		const validator = jsonschema.validate(req.body, factNewSchema);
 		if (!validator.valid) {

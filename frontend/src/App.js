@@ -16,13 +16,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./routes/Home.js";
 import SignUp from "./routes/SignUp.js";
 import LogIn from "./routes/LogIn.js";
+// import OnThisDay from "./OnThisDay.js";
+
+// TODO
+import Facts from "./routes/Facts.js";
 import Favorites from "./routes/Favorites.js";
 import Random from "./routes/Random.js";
-import OnThisDay from "./OnThisDay.js";
 
 function App() {
 	const api = OTD_TIL_Api;
-
+	console.log(api);
 	const [appInfo, setAppInfo] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -39,6 +42,9 @@ function App() {
 	// 	email: "testuser@testuser.com",
 	// 	isAdmin: false,
 	// });
+
+	const[storedFacts, setStoredFacts] = useState([])
+	
 
 	// login - get user
 	async function login(loginFormData) {
@@ -105,9 +111,11 @@ function App() {
 				setToken,
 				user,
 				setUser,
+				storedFacts,
+				setStoredFacts,
 				login,
 				signup,
-				logout
+				logout,
 			}}>
 			<div className="App">
 				<BrowserRouter>
@@ -120,7 +128,8 @@ function App() {
 							<Route path="/" element={<Home />} />
 							<Route path="/logIn" element={<LogIn />} />
 							<Route path="/signUp" element={<SignUp />} />
-							<Route path="/facts" element={<OnThisDay />} />
+							<Route path="/facts" element={<Facts />} />
+							{/* <Route path="/facts" element={<OnThisDay />} /> */}
 							<Route path="/favorites" element={<Favorites />} />
 							<Route path="/random" element={<Random />} />
 						</Routes>

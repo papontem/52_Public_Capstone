@@ -15,7 +15,7 @@
 
 export default function apiSettings() {
     return {
-      baseUrl: "https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday",
+      wikiBaseUrl: "https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday",
       defaultType: "selected",
     };
   }

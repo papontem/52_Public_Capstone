@@ -24,7 +24,7 @@ import {
 export default function NavBar() {
 	const { appInfo, api, user, token, logout } = useContext(AppContext);
 
-	console.log("NavBar Component Context:", appInfo, api, user);
+	// console.log("NavBar Component Context:", appInfo, api, user);
 	const handleLogoffClick = () => {
 		logout();
 	};

@@ -18,10 +18,9 @@ import DataResults from "./DataResults.js";
 import "./OnThisDay.css";
 
 function OnThisDay(props) {
-
 	console.log("OnThisDay Main component start");
 	const { today, defaultMonth, defaultDay } = todayDateGen();
-	const { baseUrl, defaultType } = apiSettings();
+	const { wikiBaseUrl, defaultType } = apiSettings();
 
 	// const todayString = today.toDateString();
 	// console.log(todayString);
@@ -29,11 +28,11 @@ function OnThisDay(props) {
 	// console.log(
 	// 	`|Today Is: ${defaultMonth}/${defaultDay}/${today.getFullYear()}`
 	// );
-	// console.log(`|Api baseUrl: ${baseUrl}\n|DefaultType: ${defaultType}`);
+	// console.log(`|Api wikiBaseUrl: ${baseUrl}\n|DefaultType: ${defaultType}`);
 
-	// Form Data State
+	// wiki_api Form Data State
 	const [formData, setFormData] = useState({
-		url: baseUrl,
+		url: wikiBaseUrl,
 		selectedType: defaultType,
 		selectedMonth: defaultMonth,
 		selectedDay: defaultDay,
@@ -44,9 +43,9 @@ function OnThisDay(props) {
 		// updating formData.url
 		setFormData((prevData) => ({
 			...prevData,
-			url: `${baseUrl}/${prevData.selectedType}/${prevData.selectedMonth}/${prevData.selectedDay}`,
+			url: `${wikiBaseUrl}/${prevData.selectedType}/${prevData.selectedMonth}/${prevData.selectedDay}`,
 		}));
-	}, [baseUrl]);
+	}, [wikiBaseUrl]);
 
 	// event handling function to change state of month and day number inputs
 	const handleDateChange = (event) => {
@@ -162,7 +161,7 @@ function OnThisDay(props) {
 			</p>
 			<p>
 				NOTE: if you select to request all data, be prepared for either a long
-				wait time or an error apearing in your console. Sometimes the requests
+				wait time or an error appearing in your console. Sometimes the requests
 				to the API can break if your requesting a large amount of data depending
 				on the day. THERE IS A LOT!!
 			</p> */}
@@ -177,7 +176,12 @@ function OnThisDay(props) {
 			{/* conditionally render based on loading and error states */}
 			{loading && <p>Loading...</p>}
 			{error && <p>Error: {error.message}</p>}
-			{!loading && !error && <DataResults data={recentRequest} />}
+			{!loading && !error && (
+				<>
+					<h2>Results:</h2>
+					<DataResults data={recentRequest} />
+				</>
+			)}
 		</div>
 	);
 }

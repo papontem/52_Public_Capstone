@@ -37,39 +37,6 @@ export default function useAxios(url, options = {}) {
 	// currently working out how to extract/manipulate the recieved data
 	console.log("Axios Response Data Array:", axiosRequestResponses);
 
-	/** Typical log response from a resquest asking for all type of fatcs for the day 24 of the month 12
-	 * 
-	 *  22:27:24.210 Axios Response Data Array:  
-			V Array [ {…} ]
-			​
-				V 0: Object { selected: (19) […], births: (234) […], id: "f49e21de-3ddf-41fd-abfb-267b36ff4323", … }
-				​​
-					births: Array(234) [ {…}, {…}, {…}, … ]
-					​​
-					deaths: Array(124) [ {…}, {…}, {…}, … ]
-					​​
-					events: Array(61) [ {…}, {…}, {…}, … ]
-					​​
-					holidays: Array(10) [ {…}, {…}, {…}, … ]
-					​​
-					id: "f49e21de-3ddf-41fd-abfb-267b36ff4323"
-					​​
-					selected: Array(19) [ {…}, {…}, {…}, … ]
-				​​
-					<prototype>: Object { … }
-
-			​	V 1: Object { selected: (19) […], id: "f6aa340f-e760-442c-b0a7-e2cc3418ed9f" }
-​​
-					id: "f6aa340f-e760-442c-b0a7-e2cc3418ed9f"
-					​​
-					selected: Array(19) [ {…}, {…}, {…}, … ]
-					​​
-					<prototype>: Object { … }
-				​
-			length: 2
-			<prototype>: Array []
-			useAxios.js:24
-	 */
 	return { axiosRequestResponses, loading, error, addData };
 }
 

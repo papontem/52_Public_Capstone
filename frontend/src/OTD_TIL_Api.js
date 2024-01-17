@@ -6,7 +6,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 /** API Class.
  *
- * Static class tying together methods used to get/send to to the API.
+ * Static class tying together methods used to get/send to to the DB API.
  * There shouldn't be any frontend-specific stuff here, and there shouldn't
  * be any API-aware stuff elsewhere in the frontend.
  *
@@ -110,7 +110,7 @@ class OTD_TIL_Api {
 	}
 
 	/** post Create a user thats trying to signup
-	 *
+	 * POST auth/register
 	 * TODO: GET CURRENT DATE and send it as YYYY/MM/DD
 	 */
 	static async registerUser(creds) {
@@ -169,6 +169,42 @@ class OTD_TIL_Api {
 		let res = await this.request(`users/${username}`, data, "patch");
 		console.log("RES:", res);
 		return res;
+	}
+
+	/**
+	 * post a page to our db
+	 * POST /pages { page } =>  { page }
+	 * pageData should be { page_url, wikibase_item }
+	 */
+	static async createAPage(pageData) {
+		console.log("OTD_TIL_Api.createAPage()", "Sent pageData:", pageData);
+		try {
+			// MAKE REQUEST WITH PAGE DATA
+			let res = await this.request(`pages`, pageData, "post");
+			console.log("RES:", res);
+			return res;
+		} catch (e) {
+			console.error("ERROR attempting to create a page:", e);
+			return e;
+		}
+	}
+
+	/**
+	 * post a fact to our db
+	 * POST facts/ { fact } => { fact }
+	 * factData should be { title, fact_date, page_id }
+	 */
+	static async createAFact(factData) {
+		console.log("OTD_TIL_Api.createAFact()", "Sent factData:", factData);
+		try {
+			// MAKE REQUEST WITH FACT DATA
+			let res = await this.request(`facts`, factData, "post");
+			console.log("RES:", res);
+			return res;
+		} catch (e) {
+			console.error("ERROR attempting to create a fact:", e);
+			return e;
+		}
 	}
 
 	/**

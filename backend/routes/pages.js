@@ -6,7 +6,7 @@ const jsonschema = require("jsonschema");
 const express = require("express");
 
 const { BadRequestError } = require("../expressError");
-const { ensureAdmin } = require("../middleware/auth");
+const { ensureAdmin, ensureLoggedIn } = require("../middleware/auth");
 const Page = require("../models/page");
 
 const pagesNewSchema = require("../schemas/pagesNew.json");
@@ -21,10 +21,10 @@ const router = new express.Router();
  *
  * Returns { page_id, page_url, wikibase_item }
  *
- * Authorization required: admin
+ * Authorization required: user or admin
  */
 
-router.post("/", ensureAdmin, async function (req, res, next) {
+router.post("/", ensureLoggedIn, async function (req, res, next) {
 	try {
 		const validator = jsonschema.validate(req.body, pagesNewSchema);
 		if (!validator.valid) {
