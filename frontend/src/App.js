@@ -5,6 +5,11 @@ import AppContext from "./AppContext.js";
 // our api for our db
 import OTD_TIL_Api from "./OTD_TIL_Api.js";
 
+// essential logic components for the wikiapi
+import useAxios from "./hooks/useAxios.js";
+import todayDateGen from "./helpers/todayDateGen.js";
+import wikiApiSettings from "./helpers/wikiApiSettings.js";
+
 // always on components
 import "./App.css";
 import NavBar from "./NavBar.js";
@@ -23,9 +28,9 @@ import Facts from "./routes/Facts.js";
 import Favorites from "./routes/Favorites.js";
 import Random from "./routes/Random.js";
 
-function App() {
+export default function App() {
 	const api = OTD_TIL_Api;
-	console.log(api);
+	// console.log("App.js OUR API:",api);
 	const [appInfo, setAppInfo] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -44,6 +49,23 @@ function App() {
 	// });
 
 	const [storedFacts, setStoredFacts] = useState([]);
+	const { today, defaultMonth, defaultDay } = todayDateGen();
+	const { wikiBaseUrl, defaultType } = wikiApiSettings();
+	// wiki_api Form Data State
+	const [wikiApiFormData, setWikiApiFormData] = useState({
+		url: wikiBaseUrl,
+		selectedType: defaultType,
+		selectedMonth: defaultMonth,
+		selectedDay: defaultDay,
+	});
+	// Using the useAxios hook to use a custom axios request/response state logger,
+	// and extracting here the states created there plus renaming a function to fetchData
+	const {
+		axiosRequestResponses,
+		loading,
+		error,
+		addData: fetchData,
+	} = useAxios(wikiApiFormData.url);
 
 	// login - get user
 	async function login(loginFormData) {
@@ -95,11 +117,17 @@ function App() {
 	// POST /pages { page } =>  { page }
 	// pageDataObject should be { page_id, page_url, wikibase_item }
 	async function addPageToDb(pageData) {
+		console.log("App.js ADD PAGE TO DB", pageData);
 		// setIsLoading(true);
-		const pageDBObject = {
-			page_id: pageData.pageid,
-			page_url: pageData.content_urls.desktop.page,
-			wikibase_item: pageData.wikibase_item
+		let pageDBObject;
+		if (pageData.pageid && pageData.content_urls) {
+			pageDBObject = {
+				page_id: pageData.pageid,
+				page_url: pageData.content_urls.desktop.page,
+				wikibase_item: pageData.wikibase_item,
+			};
+		} else {
+			pageDBObject = { ...pageData };
 		}
 		try {
 			const res = await api.createAPage(pageDBObject);
@@ -115,19 +143,41 @@ function App() {
 	async function addFactToDb(factData) {
 		console.log("App.js ADD FACT TO DB:", factData);
 		// setIsLoading(true);
-		// TODO need to add correct date, maybe by bringing up date and form data up from the OnThisDay component
 		const factDBObject = {
-			text_title: factData.text, 
-			fact_date: factData.year,
-			page_id: factData.pages[0].pageid
-		}
+			text_title: factData.text,
+			fact_date: `${factData.year}/${wikiApiFormData.selectedMonth}/${wikiApiFormData.selectedDay}`,
+			page_id: factData.pages[0].pageid,
+		};
+
+		console.log("App.js ADD FACT TO DB FACTDBOBJECT:", factDBObject);
 		try {
 			// find out if page has already been created before fact inclusion, if not create the page
-			const factParentPage = factData.pages[0]
-			console.log("PARENT PAGE OF FACT:", factParentPage);
+			console.log(
+				"MAKING PARENT:",
+				factData.pages[0].content_urls.desktop.page
+			);
+			const factParentPage = {
+				page_id: factData.pages[0].pageid,
+				page_url: factData.pages[0].content_urls.desktop.page,
+				wikibase_item: factData.pages[0].wikibase_item,
+			};
 
-			// const res = await api.createAFact(factDBObject);
-			// console.log("Fact created successfully:", res);
+			try {
+				console.log("PARENT PAGE OF FACT:", factParentPage);
+				// check if page is already in our database, our db throws an error if its not, we want to then create the page if its not already existing
+				const getPageRes = await api.getPage(factParentPage.page_id);
+				console.log("App.js api.getPage() response: ", getPageRes);
+			} catch (error) {
+				console.log(error);
+				if (error[0] == `No page: ${factParentPage.page_id}`) {
+					console.log("YO DAWG LETS MAKE THE PAGE THEN!!!!");
+					// create page if getPageRes is unsuccesfull
+					await addPageToDb(factParentPage);
+				}
+			}
+
+			const res = await api.createAFact(factDBObject);
+			console.log("Fact created successfully:", res);
 		} catch (error) {
 			console.error("Error creating fact:", error);
 		}
@@ -159,6 +209,17 @@ function App() {
 				logout,
 				addPageToDb,
 				addFactToDb,
+				today,
+				defaultMonth,
+				defaultDay,
+				wikiBaseUrl,
+				defaultType,
+				wikiApiFormData,
+				setWikiApiFormData,
+				axiosRequestResponses,
+				loading,
+				error,
+				fetchData,
 			}}>
 			<div className="App">
 				<BrowserRouter>
@@ -184,5 +245,3 @@ function App() {
 		</AppContext.Provider>
 	);
 }
-
-export default App;

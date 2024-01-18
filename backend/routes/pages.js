@@ -39,7 +39,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 	}
 });
 
-// TODO search for pages
+
 /** GET /  =>
  *   { pages: [ { page_id, page_url, wikibase_item }, ...] }
  *

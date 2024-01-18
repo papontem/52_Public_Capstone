@@ -3,11 +3,6 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
 import AppContext from "./AppContext";
 
-// essential logic components
-import useAxios from "./hooks/useAxios.js";
-import todayDateGen from "./helpers/todayDateGen.js";
-import apiSettings from "./helpers/apiSettings.js";
-
 // child components
 import DateForm from "./DateForm.js";
 import DataResults from "./DataResults.js";
@@ -18,10 +13,45 @@ import DataResults from "./DataResults.js";
 import "./OnThisDay.css";
 
 function OnThisDay(props) {
-	
 	console.log("OnThisDay Main component start");
-	const { today, defaultMonth, defaultDay } = todayDateGen();
-	const { wikiBaseUrl, defaultType } = apiSettings();
+
+	const {
+		appInfo,
+		api,
+		user,
+		token,
+		storedFacts,
+		setStoredFacts,
+		today,
+		defaultMonth,
+		defaultDay,
+		wikiBaseUrl,
+		defaultType,
+		wikiApiFormData,
+		setWikiApiFormData,
+		axiosRequestResponses,
+		loading,
+		error,
+		fetchData,
+	} = useContext(AppContext);
+
+	// const { today, defaultMonth, defaultDay } = todayDateGen();
+	// const { wikiBaseUrl, defaultType } = wikiApiSettings();
+	// // wiki_api Form Data State
+	// const [wikiApiFormData, setWikiApiFormData] = useState({
+	// 	url: wikiBaseUrl,
+	// 	selectedType: defaultType,
+	// 	selectedMonth: defaultMonth,
+	// 	selectedDay: defaultDay,
+	// });
+	// // Using the useAxios hook to use a custom axios request/response state logger,
+	// // and extracting here the states created there plus renaming a function to fetchData
+	// const {
+	// 	axiosRequestResponses,
+	// 	loading,
+	// 	error,
+	// 	addData: fetchData,
+	// } = useAxios(wikiApiFormData.url);
 
 	// const todayString = today.toDateString();
 	// console.log(todayString);
@@ -31,18 +61,10 @@ function OnThisDay(props) {
 	// );
 	// console.log(`|Api wikiBaseUrl: ${baseUrl}\n|DefaultType: ${defaultType}`);
 
-	// wiki_api Form Data State
-	const [formData, setFormData] = useState({
-		url: wikiBaseUrl,
-		selectedType: defaultType,
-		selectedMonth: defaultMonth,
-		selectedDay: defaultDay,
-	});
-
 	// end point OTD api request url updating function
 	const updateUrl = useCallback(() => {
 		// updating formData.url
-		setFormData((prevData) => ({
+		setWikiApiFormData((prevData) => ({
 			...prevData,
 			url: `${wikiBaseUrl}/${prevData.selectedType}/${prevData.selectedMonth}/${prevData.selectedDay}`,
 		}));
@@ -52,7 +74,7 @@ function OnThisDay(props) {
 	const handleDateChange = (event) => {
 		const { name, value } = event.target;
 		console.log("DATE CHANGED!");
-		setFormData((prevData) => ({
+		setWikiApiFormData((prevData) => ({
 			...prevData,
 			[name]: value.padStart(2, "0"),
 		}));
@@ -62,7 +84,7 @@ function OnThisDay(props) {
 
 	// event handling function to change state of historical fact type input
 	const handleTypeChange = (event) => {
-		setFormData((prevData) => ({
+		setWikiApiFormData((prevData) => ({
 			...prevData,
 			selectedType: event.target.value,
 		}));
@@ -71,15 +93,6 @@ function OnThisDay(props) {
 		// Update URL when type changes
 		updateUrl();
 	};
-
-	// Using the useAxios hook to use a custom axios request/response state logger,
-	// and extracting here the states created there plus renaming a function to fetchData
-	const {
-		axiosRequestResponses,
-		loading,
-		error,
-		addData: fetchData,
-	} = useAxios(formData.url);
 
 	// !!!!! TODO: CRATE A STATE THAT WE CAN HAVE EXIST IN LOCAL STORAGE FOR THE MOST RECENT REQUEST.
 	// it should be an object with keys for selected, events, holidays, births, and deaths
@@ -98,10 +111,10 @@ function OnThisDay(props) {
 	const handleFetchData = async (e) => {
 		e.preventDefault();
 		console.log(
-			`Fetching data for Current Selection (mm/dd): ${formData.selectedType} (${formData.selectedMonth}-${formData.selectedDay})`
+			`Fetching data for Current Selection (mm/dd): ${wikiApiFormData.selectedType} (${wikiApiFormData.selectedMonth}-${wikiApiFormData.selectedDay})`
 		);
 
-		console.log("Sending Request to:", formData.url);
+		console.log("Sending Request to:", wikiApiFormData.url);
 
 		// Call the addData function from the useAxios hook
 		await fetchData();
@@ -114,9 +127,9 @@ function OnThisDay(props) {
 		// 	`Updated Current Selection (mm-dd): ${formData.selectedType} (${formData.selectedMonth}-${formData.selectedDay})`
 		// );
 	}, [
-		formData.selectedMonth,
-		formData.selectedDay,
-		formData.selectedType,
+		wikiApiFormData.selectedMonth,
+		wikiApiFormData.selectedDay,
+		wikiApiFormData.selectedType,
 		updateUrl,
 	]);
 
@@ -168,7 +181,7 @@ function OnThisDay(props) {
 			</p> */}
 
 			<DateForm
-				formData={formData}
+				formData={wikiApiFormData}
 				handleDateChange={handleDateChange}
 				handleTypeChange={handleTypeChange}
 				handleFetchData={handleFetchData}

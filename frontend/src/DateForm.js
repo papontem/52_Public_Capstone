@@ -3,16 +3,14 @@
 import React from "react";
 import "./DateForm.css";
 
-
-function DateForm({
+export default function DateForm({
 	formData,
 	handleDateChange,
 	handleTypeChange,
 	handleFetchData,
 }) {
-	
-	console.log("DateForm component start");
-	console.log("DateForm component end");
+	// console.log("DateForm component start");
+	// console.log("DateForm component end");
 	return (
 		<form className="OnThisDay-DateForm">
 			<label className="OnThisDay-DateForm-Label">
@@ -69,5 +67,3 @@ function DateForm({
 		</form>
 	);
 }
-
-export default DateForm;

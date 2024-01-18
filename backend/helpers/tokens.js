@@ -7,13 +7,13 @@ function createToken(user) {
   console.assert(user.isAdmin !== undefined,
       "createToken passed user without isAdmin property");
 
-  console.log("HELPERS TOKEN", user);
+  // console.log("HELPERS TOKEN", user);
   let payload = {
     username: user.username,
     isAdmin: user.isAdmin || false,
   };
   
-  console.log("HELPERS TOKEN PAYLOAD", payload);
+  // console.log("HELPERS TOKEN PAYLOAD", payload);
   
   return jwt.sign(payload, SECRET_KEY);
 }
