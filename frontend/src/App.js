@@ -44,6 +44,7 @@ export default function App() {
 			date_reg: "",
 			email: "",
 			isAdmin: false,
+			favorites:[]
 		}
 	);
 	// const [user, setUser] = useState({

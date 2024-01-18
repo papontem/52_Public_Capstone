@@ -132,8 +132,12 @@ class User {
 		const userFavoritesRes = await db.query(
 			`SELECT 
 				f.fact_id,
-           FROM favorites AS f
-           WHERE f.username = $1`,
+				fs.text_title,
+				fs.fact_date,
+				fs.page_id
+			FROM favorites AS f
+			JOIN facts AS fs ON f.fact_id = fs.fact_id
+			WHERE f.username = $1`,
 			[username]
 		);
 

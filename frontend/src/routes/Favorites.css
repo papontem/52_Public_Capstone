@@ -1,0 +1,8 @@
+.Favorites {
+	color: gold;
+	border: 1px gold solid;
+}
+.Favorites p {
+	font-weight: bold;
+	text-align: center;
+}

@@ -1,0 +1,8 @@
+.FavoritesFactList {
+    color: white;
+    font-weight: bold;
+    border: 1px gold solid;
+}
+.FavoritesFactList p {
+    text-align: center;
+}
