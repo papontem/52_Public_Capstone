@@ -1,49 +1,5 @@
 # Capstone: Step Three - Source Your Data
 
-You're entering step three of your capstone project. To review the project steps, refer to [this document](https://www.springboard.com/archeio/download/102aef7e57ef4473b238dcd0a0e0d871/).
-
-## Database Management (4-8 Hours)
-
-Depending on the path you have chosen, you will either finalize your API choice or begin the creation of your own API.
-
-### Pre Existing API
-
-If you have not yet chosen an API:
-
-- Please be sure to restrict your search to APIs that are free to access - happily, there are thousands available!
-- For this project, do not feel like you have to restrict yourself to an API that has easy-to-use data.
-- Check out [this APIs List](https://apilist.fun/) but feel free to explore other resources too.
-
-After you've chosen your API:
-
-- Familiarize yourself with the data it contains.
-- Look at how the data is formatted, and whether it is returned in JSON or XML. The code you write to process the API will be slightly different depending on how the API is formatted.
-- Think about what data you'll need for your site, and what data in the API may be unnecessary.
-- Consider: Does any of the data seem messy to you? Think about how you might have to manipulate it before it's usable.
-
-### Homemade API
-
-If you are making a more advanced Flask/Python app, or if you are feeling like a challenge, then you can create your own API. In order to gather the data you will need to scrape the web, find a CSV that contains data you'd like to use and load it into your API, read the data from a file, or collect user input. If you are collecting user input, you should enter in dummy data to begin with.
-
-Please note that if you scrape the web for data, you will likely have to clean it and manipulate it. This will involve either the use of regular expressions or external libraries like pandas.
-
-## Schema
-
-### Designing Your Schema
-
-- Think about how you want to design the tables in your relational database, based on the API and any other additional data you might be storing, such as user login information.
-- What will the primary and foreign keys be? Which tables will relate to each other? What kind of relationships will they have?
-- Draw out how you'd like the associations to work in the Crow's Foot notation we taught you. Refer to [this video](https://player.vimeo.com/video/386853603?autopause=0&autoplay=1&loop=0) for a refresher.
-- Once you decide on your columns and their data types, tables and their relationships, primary and foreign keys, and constraints that your schema will have, upload a text file containing your schema design or draw it out, take a picture, and upload that.
-
-## Submitting Your Work
-
-1. Add your Schema files to your GitHub repo.
-2. Make a file called `README.md` and add the link to your API in there. For right now, that is all the README needs, but in the last step of the project, you will flesh it out with more documentation.
-3. Submit your GitHub link to your mentor so they can review your Schema. You do not need approval from your mentor to continue working on the project, but they may have advice on how to improve it.
-
----
-
 # "Today I Learned" App Documentation
 
 ## API

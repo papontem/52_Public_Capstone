@@ -13,7 +13,7 @@ export default function FavoritesFact(factObject) {
 	const formattedDate = `${year}/${month}/${day}`;
 	fact.fact_date = formattedDate;
 
-    
+
 	return (
 		<li className="FavoritesFactList-FavoritesFact">
 			<p>
@@ -23,6 +23,7 @@ export default function FavoritesFact(factObject) {
 				<br />
 				Fact Date: {fact.fact_date}
 			</p>
+            
 		</li>
 	);
 }

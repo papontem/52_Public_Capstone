@@ -4,6 +4,8 @@ import { useContext } from "react";
 import AppContext from "./AppContext";
 // import { v4 as uuid } from "uuid";
 
+import "./DataFact.css";
+
 function DataFact({ factObject }) {
 	// console.log("DataFact.js :", factObject);
 	const {
@@ -30,10 +32,12 @@ function DataFact({ factObject }) {
 		addFactToFavorites(factObject);
 	};
 
+	// console.log("factObject.pages[0].content_url.desktop.page", factObject.pages[0].content_url.desktop.page);
 	// TODO work out a way to deactivate the add to db and favorite buttons if fact is already in our db.
 	return (
 		<li className="DataFact" key={factObject.id}>
-			{`${factObject.year}: ${factObject.text}`}
+			<p>{`${factObject.year}: ${factObject.text}`}</p>
+			<a href={factObject.pages[0].content_urls.desktop.page}> &gt; Wiki &lt; </a>
 			{token && user.username !== "" && (
 				<>
 					<form onSubmit={handleFormSubmit}>

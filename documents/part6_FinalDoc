@@ -1,0 +1,125 @@
+# Today I Learned App - Capstone Project
+
+## Overview
+
+Welcome to the "Today I Learned" app, a project developed for the capstone of my SE Bootcamp at USF. This app is designed to provide users with a daily dose of historical facts sourced from the Wikimedia Feed API. Users can explore events, holidays, births, deaths, and other notable occurrences that happened on a specific date.
+
+## Deployed Site
+
+[Today I Learned App](#) - (Deployed link to be inserted as heroku service changes occured)
+
+## Features Implemented
+
+- **Daily Historical Facts:**
+  - Retrieve and display historical facts based on the date using the Wikimedia Feed API.
+- **User-Friendly Interface:**
+  - Responsive and interactive interface built with React for seamless user experience.
+- **Save and Retrieve Favorite Facts:**
+  - Users can save interesting facts for future reference, fostering a daily learning habit.
+- **API Integration:**
+  - Integration with the Wikimedia Feed API to fetch relevant historical information.
+
+## Testing
+
+To run tests, use the following command:
+
+```bash
+# Run unit tests
+npm test
+```
+
+## User Flow
+
+1. **Homepage:**
+   - Open the website to be greeted with a welcome message!.
+2. **Facts**
+   - Fill out the date form of simply click fecth data to start events that occured on you day of opening the page. Scroll though the facts and click the wiki button to view its Wikipedia page.
+3. **Date Selection:**
+   - Use the date selector to explore facts from specific dates and from the different categories that the api provides.
+4. **Favorites:**
+   - Once you signup and login you will notice a few buttons appear on the facts after you fetch them. Save interesting facts to the database then to your favorites for future reference and collection.
+
+## API Information
+
+### Chosen API:
+
+[Wikimedia Feed API - On_this_day](https://api.wikimedia.org/wiki/Feed_API/Reference/On_this_day)
+
+### API Usage:
+
+- Endpoint URL: `https://api.wikimedia.org/feed/v1/wikipedia/{language}/onthisday/{type}/{MM}/{DD}`
+- Headers: 
+  - `'Authorization': 'Bearer YOUR_ACCESS_TOKEN'`
+  - `'Api-User-Agent': 'YOUR_APP_NAME (YOUR_EMAIL_OR_CONTACT_PAGE)'`
+
+### Data Format:
+
+The API responds in JSON format.
+
+### API Notes:
+
+- The response includes curated events, births, deaths, holidays, and other events for the specified date if you select to change type to "all" on the url.
+- The Devs at Wikimedia Foundation made the careful parsing of the API response easy to extract relevant information for the app. Lots of love and thanks to all that they do!
+
+## Technology Stack
+
+- **Frontend:**
+  - Language: JavaScript
+  - Library: React
+  - Markup: HTML/CSS
+- **Backend:**
+  - Runtime: Node.js
+- **Development:**
+  - Code Editor Tool: VSCode
+  - Testing: Jest.js
+
+## Project Organization
+The project is organized into different directories, each serving a specific purpose. Key directories include:
+- `/documents` - the read me project documention you are reading now plus some screenshots of the app.
+- `/backend` - all the backend code requiered for the backend server routes and psql queries
+    - `app.js` - the node express app running the server
+
+- `/frontend`
+    - `/src`: Source code for the react frontend 
+
+## Database Schema
+
+### Tables:
+
+1. **Users:**
+   - id: Integer, Primary Key
+   - username: String
+   - password: String
+   - date_reg: Date MDY
+   - is_admin: boolean
+
+2. **Favorites:**
+   - favorite_Id: Pair integer of user_id and fact_id, Primary Key
+   - user_id: Foreign Key referencing Users table
+   - fact_id: Foreign Key referencing Facts table
+
+3. **Facts:**
+   - id : Integer, Primary Key
+   - title : string
+   - fact_date : DATE MDY 12/31/2000
+   - page_id : Foreign Key referencing Pages table
+
+4. **Pages:**
+   - page_id : Integer, Primary Key
+   - page_URL leading to Wikipedia for more info : URL string
+   - wikibase_item : string starting with "Q", can be none
+
+### Relationships:
+
+- Users -> Favorites: One-to-Many
+- Facts -> Favorites: One-to-Many
+- Pages -> Facts: One-to-Many
+
+## Additional Information
+
+- The project follows a client-server architecture with React for the frontend and Node.js for the backend.
+- Addressed potential technical challenges, including test creation, data handling, and API mocking.
+- Ensured secure handling of sensitive information, such as usernames and passwords.
+
+Feel free to explore the app and learn something new every day!
+Thank you for reviewing my Capstone Project! Feel free to reach out if you have any questions or feedback.

@@ -1,14 +1,4 @@
-.FavoritesFactList {
-    color: white;
-    font-weight: bold;
-    border: 1px gold solid;
-}
-.FavoritesFactList p {
-    text-align: center;
-}
-
-
-.FavoritesFactList a {
+.DataFact a {
 	margin: 5px;
 	padding: 5px;
 	text-decoration: none;
@@ -16,7 +6,7 @@
 	outline: solid 2px;
 	border-radius: 5px;
 }
-.FavoritesFactList a:hover {
+.DataFact a:hover {
 	margin: 5px;
 	padding: 5px;
 	color: cyan;
