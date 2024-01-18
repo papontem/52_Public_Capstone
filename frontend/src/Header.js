@@ -1,6 +1,5 @@
-// react essential components
-import React, { useContext } from "react";
-import AppContext from "./AppContext";
+// import { useContext }  from "react";
+// import AppContext from "./AppContext";
 
 import "./Header.css";
 import { Cone, ConeStriped } from "react-bootstrap-icons";

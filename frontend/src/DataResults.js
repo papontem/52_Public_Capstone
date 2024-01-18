@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
-import AppContext from "./AppContext";
+
+// import { useContext }  from "react";
+// import AppContext from "./AppContext";
 import { v4 as uuid } from "uuid";
 import "./DataResults.css";
 import DataFactList from "./DataFactList";
@@ -14,7 +15,7 @@ function renderCategoryResults(category, categoryName, data) {
 }
 
 function DataResults({ data = {} }) {
-	const { appInfo, setAppInfo, api } = useContext(AppContext);
+	// const { appInfo, setAppInfo, api } = useContext(AppContext);
 
 	console.log("DataResults component start");
 	console.log("Recieved data:", data);

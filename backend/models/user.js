@@ -130,13 +130,22 @@ class User {
 
 		// TODO FACT LIST -----------------------------------
 		const userFavoritesRes = await db.query(
-			`SELECT f.fact_id
+			`SELECT 
+				f.fact_id,
            FROM favorites AS f
            WHERE f.username = $1`,
 			[username]
 		);
 
-		user.favorites = userFavoritesRes.rows.map((f) => f.fact_id);
+		user.favorites = userFavoritesRes.rows.map((f) => {
+			let fact = {
+				fact_id: f.fact_id,
+				text_title: f.text_title,
+				fact_date: f.fact_date,
+				page_id: f.page_id,
+			};
+			return fact;
+		});
 		// user.favorites = []
 		return user;
 	}
@@ -205,6 +214,8 @@ class User {
 	 **/
 
 	static async favoriteAFact(username, fact_Id) {
+		console.log("Models USER FAVORITE A FACT");
+
 		const preCheck = await db.query(
 			`SELECT fact_id
            FROM facts
@@ -234,3 +245,18 @@ class User {
 }
 
 module.exports = User;
+
+/**
+ * Error: Not Found
+    at /home/papontemjetix/linux_Documents/linux_CODING/USF_Bootcamp/Units/github/public/52_Public_Capstone/backend/app.js:44:14
+    at Layer.handle [as handle_request] (/home/papontemjetix/linux_Documents/linux_CODING/USF_Bootcamp/Units/github/public/52_Public_Capstone/backend/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/papontemjetix/linux_Documents/linux_CODING/USF_Bootcamp/Units/github/public/52_Public_Capstone/backend/node_modules/express/lib/router/index.js:328:13)
+    at /home/papontemjetix/linux_Documents/linux_CODING/USF_Bootcamp/Units/github/public/52_Public_Capstone/backend/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/papontemjetix/linux_Documents/linux_CODING/USF_Bootcamp/Units/github/public/52_Public_Capstone/backend/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/papontemjetix/linux_Documents/linux_CODING/USF_Bootcamp/Units/github/public/52_Public_Capstone/backend/node_modules/express/lib/router/index.js:280:10)
+    at /home/papontemjetix/linux_Documents/linux_CODING/USF_Bootcamp/Units/github/public/52_Public_Capstone/backend/node_modules/express/lib/router/index.js:646:15
+    at next (/home/papontemjetix/linux_Documents/linux_CODING/USF_Bootcamp/Units/github/public/52_Public_Capstone/backend/node_modules/express/lib/router/index.js:265:14)
+    at Function.handle (/home/papontemjetix/linux_Documents/linux_CODING/USF_Bootcamp/Units/github/public/52_Public_Capstone/backend/node_modules/express/lib/router/index.js:175:3)
+    at router (/home/papontemjetix/linux_Documents/linux_CODING/USF_Bootcamp/Units/github/public/52_Public_Capstone/backend/node_modules/express/lib/router/index.js:47:12)
+POST /users/testuser/facts/55 404 1.079 ms - 46
+ */

@@ -1,5 +1,5 @@
 // react essential components
-import React, { useContext } from "react";
+import { useContext } from "react";
 import AppContext from "./AppContext";
 
 // react-router-dom essential components
@@ -22,7 +22,13 @@ import {
 } from "react-bootstrap-icons";
 
 export default function NavBar() {
-	const { appInfo, api, user, token, logout } = useContext(AppContext);
+	const {
+		appInfo,
+		//  api,
+		user,
+		token,
+		logout,
+	} = useContext(AppContext);
 
 	// console.log("NavBar Component Context:", appInfo, api, user);
 	const handleLogoffClick = () => {

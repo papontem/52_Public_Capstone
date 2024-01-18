@@ -1,15 +1,21 @@
 // Facts.js
 
 // react essential components
-import React, { useContext, useState } from "react";
+import { useContext } from "react";
 import AppContext from "../AppContext";
 
 import OnThisDay from "../OnThisDay.js";
 
 import "./Facts.css";
 export default function Facts(props) {
-	const { appInfo, api, user, token, storedFacts, setStoredFacts } =
-		useContext(AppContext);
+	const {
+		appInfo,
+		api,
+		user,
+		token,
+		storedFacts,
+		// setStoredFacts
+	} = useContext(AppContext);
 
 	console.log(
 		"Fatcs Component Context:",
@@ -30,7 +36,7 @@ export default function Facts(props) {
 				provided by the wikipedia feed api's on-this-day end point.
 			</p>
 
-            < OnThisDay />
+			<OnThisDay />
 		</div>
 	);
 }

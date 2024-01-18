@@ -32,22 +32,19 @@ class Fact {
 	/** Find all facts (optional filter on searchFilters).
 	 *
 	 * searchFilters (all optional):
-	 * - minSalary
-	 * - hasEquity (true returns only facts with equity > 0, other values ignored)
 	 * - text_title (will find case-insensitive, partial matches)
 	 *
 	 * Returns [{ id, text_title, salary, equity, page_id, pageName }, ...]
 	 * */
 
-	static async findAll({ minSalary, hasEquity, text_title } = {}) {
-		let query = `SELECT f.id,
+	static async findAll({text_title } = {}) {
+		let query = `SELECT f.fact_id,
                         f.text_title,
-                        f.salary,
-                        f.equity,
-                        f.page_page_id AS "page_id",
-                        c.name AS "pageName"
+						f.fact_date,
+                        f.page_id AS "page_id",
+                        p.page_url AS "page_url"
                  FROM facts f
-                   LEFT JOIN pages AS c ON c.page_id = f.page_page_id`;
+                   LEFT JOIN pages AS p ON p.page_id = f.page_id`;
     // variables needed for querying the db for matching records
 		let whereExpressions = [];
 		let queryValues = [];

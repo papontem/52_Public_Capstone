@@ -139,6 +139,7 @@ router.post(
 	"/:username/favorites/:fact_id",
 	ensureCorrectUserOrAdmin,
 	async function (req, res, next) {
+		console.log("Routes USER FAVORITE A FACT");
 		try {
 			const { username, fact_id } = req.params;
 			await User.favoriteAFact(username, fact_id);

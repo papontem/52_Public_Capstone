@@ -51,7 +51,8 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
  */
 
 router.get("/", async function (req, res, next) {
-	//   const q = req.query;
+	  const q = req.query;
+	  
 	//   // arrive as strings from querystring, but we want as int/bool
 	//   if (q.minSalary !== undefined) q.minSalary = +q.minSalary;
 	//   q.hasEquity = q.hasEquity === "true";

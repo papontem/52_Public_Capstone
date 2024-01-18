@@ -1,5 +1,5 @@
 // react prop, state, and context
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import AppContext from "./AppContext.js";
 
 // our api for our db
@@ -34,13 +34,18 @@ export default function App() {
 	const [appInfo, setAppInfo] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 
-	const [token, setToken] = useState(api.token);
-	const [user, setUser] = useState({
-		username: "",
-		date_reg: "",
-		email: "",
-		isAdmin: false,
-	});
+	let localToken = JSON.parse(localStorage.getItem("token")) || null;
+	let localUser = JSON.parse(localStorage.getItem("user")) || null;
+
+	const [token, setToken] = useState(localToken || api.token || null);
+	const [user, setUser] = useState(
+		localUser || {
+			username: "",
+			date_reg: "",
+			email: "",
+			isAdmin: false,
+		}
+	);
 	// const [user, setUser] = useState({
 	// 	username: "testuser",
 	// 	date_reg: "2024-12-29",
@@ -67,7 +72,7 @@ export default function App() {
 		addData: fetchData,
 	} = useAxios(wikiApiFormData.url);
 
-	// login - get user
+	// login - auth then get user
 	async function login(loginFormData) {
 		setIsLoading(true); // Set isLoading to true before making changes
 		const res = await api.authUser(loginFormData);
@@ -169,7 +174,7 @@ export default function App() {
 				console.log("App.js api.getPage() response: ", getPageRes);
 			} catch (error) {
 				console.log(error);
-				if (error[0] == `No page: ${factParentPage.page_id}`) {
+				if (error[0] === `No page: ${factParentPage.page_id}`) {
 					console.log("YO DAWG LETS MAKE THE PAGE THEN!!!!");
 					// create page if getPageRes is unsuccesfull
 					await addPageToDb(factParentPage);
@@ -177,12 +182,62 @@ export default function App() {
 			}
 
 			const res = await api.createAFact(factDBObject);
-			console.log("Fact created successfully:", res);
+			console.log("App.js RES:", res);
+			return res;
 		} catch (error) {
 			console.error("Error creating fact:", error);
 		}
 		// setIsLoading(false);
 	}
+
+	// POST users/username/facts/factId
+	async function addFactToFavorites(factObject) {
+		console.log(
+			"App.js Add Fact To Favorites fact object to find:",
+			factObject
+		);
+		try {
+			let factSearchResults = await api.getFactsBy(factObject.text);
+			console.log("FACT SEARCH RESULT:", factSearchResults);
+
+			let firstMatchingFact = factSearchResults[0];
+			console.log("fact:", firstMatchingFact);
+			if (firstMatchingFact.fact_id) {
+				try {
+					const res = await api.favoriteAFact(
+						user.username,
+						firstMatchingFact.fact_id
+					);
+					console.log("App.js favorite A Fact RES:", res);
+
+					// now update user
+					const { username } = user;
+					const userRes = await api.getUser(username);
+					// set the current user in state and local storage
+					setUser({ ...userRes.user });
+					// localStorage.setItem("user", JSON.stringify(userRes.user));
+
+				} catch (error) {
+					console.error("Error adding fact to favorites:", error);
+				}
+			}
+		} catch (error) {
+			console.error("Error finding fact to favorite:", error);
+		}
+	}
+
+	// possible security bug
+	// Call getUser after a delay using setTimeout
+	// function delayedGetUser(username=user.username, delayMillis=5000) {
+	// 	setTimeout(async () => {
+	// 		try {
+	// 			const user = await api.getUser(username);
+	// 			console.log("User:", user);
+	// 		} catch (error) {
+	// 			console.error("Error getting user:", error);
+	// 		}
+	// 	}, delayMillis);
+	// }
 
 	// any time that our user and token states change we also set them in local storage
 	useEffect(() => {
@@ -190,6 +245,7 @@ export default function App() {
 		localStorage.setItem("user", JSON.stringify(user));
 		localStorage.setItem("token", JSON.stringify(token));
 		api.token = token;
+		// delayedGetUser()
 	}, [user, token, api]);
 
 	return (
@@ -209,6 +265,7 @@ export default function App() {
 				logout,
 				addPageToDb,
 				addFactToDb,
+				addFactToFavorites,
 				today,
 				defaultMonth,
 				defaultDay,
@@ -233,7 +290,6 @@ export default function App() {
 							<Route path="/logIn" element={<LogIn />} />
 							<Route path="/signUp" element={<SignUp />} />
 							<Route path="/facts" element={<Facts />} />
-							{/* <Route path="/facts" element={<OnThisDay />} /> */}
 							<Route path="/favorites" element={<Favorites />} />
 							<Route path="/random" element={<Random />} />
 						</Routes>

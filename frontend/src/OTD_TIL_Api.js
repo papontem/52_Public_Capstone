@@ -66,7 +66,7 @@ class OTD_TIL_Api {
 
 	/** Get data from facts table that have a title similar to search term */
 	static async getFactsBy(searchTerm) {
-		let res = await this.request(`facts?title=${searchTerm}`);
+		let res = await this.request(`facts?text_title=${searchTerm}`);
 		// console.log("RES:", res);
 
 		return res.facts;
@@ -208,9 +208,9 @@ class OTD_TIL_Api {
 	}
 
 	/**
-	 * post make user apply to a fact add fact to their favorites list
+	 * post make user favorite a fact, add fact to their favorites list
 	 * POST users/[username]/facts/[id]  { state } => {"favorited": fact_Id}
-	 * 	Returns objtc to notify of application suceess
+	 * 	Returns object to notify of application success
 	 */
 	static async favoriteAFact(username, factID) {
 		console.log(
@@ -223,11 +223,11 @@ class OTD_TIL_Api {
 
 		try {
 			let res = await this.request(
-				`users/${username}/facts/${factID}`,
+				`users/${username}/favorites/${factID}`,
 				{},
 				"post"
 			);
-			console.log("RES:", res);
+			console.log("api.js RES:", res);
 			return res;
 		} catch (e) {
 			console.error("ERROR attempting to favorite a fact:", e);

@@ -1,6 +1,6 @@
 // OnThisDay.js
 // react essential components
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import { useContext, useState, useEffect, useCallback } from "react";
 import AppContext from "./AppContext";
 
 // child components
@@ -16,17 +16,17 @@ function OnThisDay(props) {
 	console.log("OnThisDay Main component start");
 
 	const {
-		appInfo,
-		api,
-		user,
-		token,
-		storedFacts,
-		setStoredFacts,
-		today,
-		defaultMonth,
-		defaultDay,
+		// appInfo,
+		// api,
+		// user,
+		// token,
+		// storedFacts,
+		// setStoredFacts,
+		// today,
+		// defaultMonth,
+		// defaultDay,
 		wikiBaseUrl,
-		defaultType,
+		// defaultType,
 		wikiApiFormData,
 		setWikiApiFormData,
 		axiosRequestResponses,
@@ -68,7 +68,7 @@ function OnThisDay(props) {
 			...prevData,
 			url: `${wikiBaseUrl}/${prevData.selectedType}/${prevData.selectedMonth}/${prevData.selectedDay}`,
 		}));
-	}, [wikiBaseUrl]);
+	}, [wikiBaseUrl, setWikiApiFormData]);
 
 	// event handling function to change state of month and day number inputs
 	const handleDateChange = (event) => {

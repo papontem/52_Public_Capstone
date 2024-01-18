@@ -1,13 +1,20 @@
 // Home.js
 
 // react essential components
-import React, { useContext, useState } from "react";
+import {
+	useContext,
+	// useState
+} from "react";
 import AppContext from "../AppContext";
 
 import "./Home.css";
 
 export default function Home(props) {
-	const { appInfo, api, user } = useContext(AppContext);
+	const {
+		user,
+		// api,
+		// appInfo,
+	} = useContext(AppContext);
 
 	// console.log("Home Component Context:", appInfo, api, user);
 	return (

@@ -1,5 +1,5 @@
 // DataFactList.js
-import React from "react";
+
 import DataFact from "./DataFact";
 import { v4 as uuid } from "uuid";
 
