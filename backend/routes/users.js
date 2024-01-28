@@ -29,13 +29,19 @@ const router = express.Router();
 router.post("/", ensureAdmin, async function (req, res, next) {
 	try {
 
-		// console.log(" ----- \n POST /users : \nreq:", req);
-
+		// console.log(" ----- \n POST /users : \nreq:", req.body);
+		
 		const validator = jsonschema.validate(req.body, userNewSchema);
+		
+		// console.log(" ----- \n POST /users : \nvalidator:",validator);
+
+
 		if (!validator.valid) {
 			const errs = validator.errors.map((e) => e.stack);
 			throw new BadRequestError(errs);
 		}
+
+
 
 		const user = await User.register(req.body);
 		const token = createToken(user);

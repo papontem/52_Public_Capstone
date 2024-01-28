@@ -40,42 +40,45 @@ async function commonBeforeAll() {
 			fact_date: "2024/01/28",
 			page_id: 1,
 		})
-	).id;
+	).fact_id;
 	testFactIds[1] = (
 		await Fact.create({
 			text_title: "F2",
 			fact_date: "2024/01/28",
 			page_id: 2,
 		})
-	).id;
+	).fact_id;
 	testFactIds[2] = (
 		await Fact.create({
 			text_title: "F3",
 			fact_date: "2024/01/28",
 			page_id: 3,
 		})
-	).id;
+	).fact_id;
 
 	await User.register({
-		username: "u1",
-		email: "user1@user.com",
+		username: "a1",
+		email: "admin1@user.com",
+		date_reg: new Date("2024-01-28T05:00:00.000Z"),
 		password: "password1",
-		isAdmin: false,
+		isAdmin: true,
 	});
 	await User.register({
 		username: "u2",
 		email: "user2@user.com",
+		date_reg: new Date("2024-01-28T05:00:00.000Z"),
 		password: "password2",
 		isAdmin: false,
 	});
 	await User.register({
 		username: "u3",
 		email: "user3@user.com",
+		date_reg: new Date("2024-01-28T05:00:00.000Z"),
 		password: "password3",
 		isAdmin: false,
 	});
 
-	await User.favoriteAFact("u1", testFactIds[0]);
+	await User.favoriteAFact("a1", testFactIds[0]);
 }
 
 async function commonBeforeEach() {
@@ -90,7 +93,7 @@ async function commonAfterAll() {
 	await db.end();
 }
 
-const u1Token = createToken({ username: "u1", isAdmin: false });
+const a1Token = createToken({ username: "a1", isAdmin: true });
 const u2Token = createToken({ username: "u2", isAdmin: false });
 const adminToken = createToken({ username: "admin", isAdmin: true });
 
@@ -100,7 +103,7 @@ module.exports = {
 	commonAfterEach,
 	commonAfterAll,
 	testFactIds,
-	u1Token,
+	a1Token,
 	u2Token,
 	adminToken,
 };

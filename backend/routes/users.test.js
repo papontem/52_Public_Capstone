@@ -12,15 +12,13 @@ const {
 	commonAfterEach,
 	commonAfterAll,
 	testFactIds,
-	u1Token,
+	a1Token,
 	u2Token,
 	adminToken,
 } = require("./_testCommon");
 
-const today = new Date("2024-01-28T05:00:00.000Z");
-
-console.log("today:", today);
 console.log("adminToken:", adminToken);
+console.log("a1Token:", a1Token);
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
@@ -31,24 +29,27 @@ afterAll(commonAfterAll);
 
 describe("POST /users", function () {
 	test("works for admins: create non-admin", async function () {
+		// const today = new Date("2024-01-28T05:00:00.000Z")
 		const newUser = {
 			username: "u-new",
-			date_reg: today,
 			password: "password-new",
+			date_reg: "2024/01/28",
 			email: "new@email.com",
 			isAdmin: false,
-		};
-
+		}
+		
 		const resp = await request(app)
 			.post("/users")
-			.send({ ...newUser })
-			.set("authorization", `Bearer ${adminToken}`);
+			.send(newUser)
+			.set("authorization", `Bearer ${a1Token}`);
 
-		console.log("test resp:", resp);
+		// console.log("test resp:", resp);
+
 		expect(resp.statusCode).toEqual(201);
 		expect(resp.body).toEqual({
 			user: {
 				username: "u-new",
+				date_reg: "2024-01-28T05:00:00.000Z",
 				email: "new@email.com",
 				isAdmin: false,
 			},
@@ -57,19 +58,24 @@ describe("POST /users", function () {
 	});
 
 	test("works for admins: create admin", async function () {
+		
+		const newAdmin = {
+			username: "a-new",
+			date_reg: "2024/01/28",
+			password: "password-new",
+			email: "new@email.com",
+			isAdmin: true,
+		}
+
 		const resp = await request(app)
 			.post("/users")
-			.send({
-				username: "u-new",
-				password: "password-new",
-				email: "new@email.com",
-				isAdmin: true,
-			})
-			.set("authorization", `Bearer ${adminToken}`);
+			.send(newAdmin)
+			.set("authorization", `Bearer ${a1Token}`);
 		expect(resp.statusCode).toEqual(201);
 		expect(resp.body).toEqual({
 			user: {
-				username: "u-new",
+				username: "a-new",
+				date_reg: "2024-01-28T05:00:00.000Z",
 				email: "new@email.com",
 				isAdmin: true,
 			},
@@ -86,7 +92,7 @@ describe("POST /users", function () {
 				email: "new@email.com",
 				isAdmin: true,
 			})
-			.set("authorization", `Bearer ${u1Token}`);
+			.set("authorization", `Bearer ${u2Token}`);
 		expect(resp.statusCode).toEqual(401);
 	});
 
@@ -134,17 +140,20 @@ describe("GET /users", function () {
 		expect(resp.body).toEqual({
 			users: [
 				{
-					username: "u1",
-					email: "user1@user.com",
-					isAdmin: false,
+					username: "a1",
+					date_reg: "2024-01-28T05:00:00.000Z",
+					email: "admin1@user.com",
+					isAdmin: true,
 				},
 				{
 					username: "u2",
+					date_reg: "2024-01-28T05:00:00.000Z",
 					email: "user2@user.com",
 					isAdmin: false,
 				},
 				{
 					username: "u3",
+					date_reg: "2024-01-28T05:00:00.000Z",
 					email: "user3@user.com",
 					isAdmin: false,
 				},
@@ -155,7 +164,7 @@ describe("GET /users", function () {
 	test("unauth for non-admin users", async function () {
 		const resp = await request(app)
 			.get("/users")
-			.set("authorization", `Bearer ${u1Token}`);
+			.set("authorization", `Bearer ${u2Token}`);
 		expect(resp.statusCode).toEqual(401);
 	});
 
@@ -181,41 +190,57 @@ describe("GET /users", function () {
 describe("GET /users/:username", function () {
 	test("works for admin", async function () {
 		const resp = await request(app)
-			.get(`/users/u1`)
+			.get(`/users/a1`)
 			.set("authorization", `Bearer ${adminToken}`);
 		expect(resp.body).toEqual({
 			user: {
-				username: "u1",
-				email: "user1@user.com",
-				isAdmin: false,
-				applications: [testFactIds[0]],
+				username: "a1",
+				date_reg: "2024-01-28T05:00:00.000Z",
+				email: "admin1@user.com",
+				isAdmin: true,
+				favorites: [
+					{
+						fact_date: "2024-01-28T05:00:00.000Z",
+						fact_id: testFactIds[0],
+						page_id: 1,
+						text_title: "F1",
+					},
+				],
 			},
 		});
 	});
 
 	test("works for same user", async function () {
 		const resp = await request(app)
-			.get(`/users/u1`)
-			.set("authorization", `Bearer ${u1Token}`);
+			.get(`/users/a1`)
+			.set("authorization", `Bearer ${a1Token}`);
 		expect(resp.body).toEqual({
 			user: {
-				username: "u1",
-				email: "user1@user.com",
-				isAdmin: false,
-				applications: [testFactIds[0]],
+				username: "a1",
+				date_reg: "2024-01-28T05:00:00.000Z",
+				email: "admin1@user.com",
+				isAdmin: true,
+				favorites: [
+					{
+						fact_date: "2024-01-28T05:00:00.000Z",
+						fact_id: testFactIds[0],
+						page_id: 1,
+						text_title: "F1",
+					},
+				],
 			},
 		});
 	});
 
 	test("unauth for other users", async function () {
 		const resp = await request(app)
-			.get(`/users/u1`)
+			.get(`/users/a1`)
 			.set("authorization", `Bearer ${u2Token}`);
 		expect(resp.statusCode).toEqual(401);
 	});
 
 	test("unauth for anon", async function () {
-		const resp = await request(app).get(`/users/u1`);
+		const resp = await request(app).get(`/users/a1`);
 		expect(resp.statusCode).toEqual(401);
 	});
 
@@ -232,39 +257,41 @@ describe("GET /users/:username", function () {
 describe("PATCH /users/:username", () => {
 	test("works for admins", async function () {
 		const resp = await request(app)
-			.patch(`/users/u1`)
+			.patch(`/users/a1`)
 			.send({
 				email: "NewUser1@user.com",
 			})
 			.set("authorization", `Bearer ${adminToken}`);
 		expect(resp.body).toEqual({
 			user: {
-				username: "u1",
+				username: "a1",
+				date_reg: "2024-01-28T05:00:00.000Z",
 				email: "NewUser1@user.com",
-				isAdmin: false,
+				isAdmin: true,
 			},
 		});
 	});
 
 	test("works for same user", async function () {
 		const resp = await request(app)
-			.patch(`/users/u1`)
+			.patch(`/users/a1`)
 			.send({
 				email: "NewUser1@user.com",
 			})
-			.set("authorization", `Bearer ${u1Token}`);
+			.set("authorization", `Bearer ${a1Token}`);
 		expect(resp.body).toEqual({
 			user: {
-				username: "u1",
+				username: "a1",
+				date_reg: "2024-01-28T05:00:00.000Z",
 				email: "NewUser1@user.com",
-				isAdmin: false,
+				isAdmin: true,
 			},
 		});
 	});
 
 	test("unauth if not same user", async function () {
 		const resp = await request(app)
-			.patch(`/users/u1`)
+			.patch(`/users/a1`)
 			.send({
 				email: "NewUser1@user.com",
 			})
@@ -273,7 +300,7 @@ describe("PATCH /users/:username", () => {
 	});
 
 	test("unauth for anon", async function () {
-		const resp = await request(app).patch(`/users/u1`).send({
+		const resp = await request(app).patch(`/users/a1`).send({
 			email: "NewUser1@user.com",
 		});
 		expect(resp.statusCode).toEqual(401);
@@ -291,7 +318,7 @@ describe("PATCH /users/:username", () => {
 
 	test("bad request if invalid data", async function () {
 		const resp = await request(app)
-			.patch(`/users/u1`)
+			.patch(`/users/a1`)
 			.send({
 				email: "this is not an email",
 			})
@@ -302,19 +329,20 @@ describe("PATCH /users/:username", () => {
 	// TODO
 	test("works: can set new password", async function () {
 		const resp = await request(app)
-			.patch(`/users/u1`)
+			.patch(`/users/a1`)
 			.send({
 				password: "new-password",
 			})
 			.set("authorization", `Bearer ${adminToken}`);
 		expect(resp.body).toEqual({
 			user: {
-				username: "u1",
-				email: "user1@user.com",
-				isAdmin: false,
+				username: "a1",
+				date_reg: "2024-01-28T05:00:00.000Z",
+				email: "admin1@user.com",
+				isAdmin: true,
 			},
 		});
-		const isSuccessful = await User.authenticate("u1", "new-password");
+		const isSuccessful = await User.authenticate("a1", "new-password");
 		expect(isSuccessful).toBeTruthy();
 	});
 });
@@ -324,27 +352,27 @@ describe("PATCH /users/:username", () => {
 describe("DELETE /users/:username", function () {
 	test("works for admin", async function () {
 		const resp = await request(app)
-			.delete(`/users/u1`)
+			.delete(`/users/a1`)
 			.set("authorization", `Bearer ${adminToken}`);
-		expect(resp.body).toEqual({ deleted: "u1" });
+		expect(resp.body).toEqual({ deleted: "a1" });
 	});
 
 	test("works for same user", async function () {
 		const resp = await request(app)
-			.delete(`/users/u1`)
-			.set("authorization", `Bearer ${u1Token}`);
-		expect(resp.body).toEqual({ deleted: "u1" });
+			.delete(`/users/a1`)
+			.set("authorization", `Bearer ${a1Token}`);
+		expect(resp.body).toEqual({ deleted: "a1" });
 	});
 
 	test("unauth if not same user", async function () {
 		const resp = await request(app)
-			.delete(`/users/u1`)
+			.delete(`/users/a1`)
 			.set("authorization", `Bearer ${u2Token}`);
 		expect(resp.statusCode).toEqual(401);
 	});
 
 	test("unauth for anon", async function () {
-		const resp = await request(app).delete(`/users/u1`);
+		const resp = await request(app).delete(`/users/a1`);
 		expect(resp.statusCode).toEqual(401);
 	});
 
@@ -361,28 +389,28 @@ describe("DELETE /users/:username", function () {
 describe("POST /users/:username/favorites/:fact_id", function () {
 	test("works for admin", async function () {
 		const resp = await request(app)
-			.post(`/users/u1/favorites/${testFactIds[1]}`)
+			.post(`/users/a1/favorites/${testFactIds[1]}`)
 			.set("authorization", `Bearer ${adminToken}`);
-		expect(resp.body).toEqual({ favorited: testFactIds[1] });
+		expect(resp.body).toEqual({ favorited: `${testFactIds[1]}` });
 	});
 
 	test("works for same user", async function () {
 		const resp = await request(app)
-			.post(`/users/u1/favorites/${testFactIds[1]}`)
-			.set("authorization", `Bearer ${u1Token}`);
-		expect(resp.body).toEqual({ favorited: testFactIds[1] });
+			.post(`/users/a1/favorites/${testFactIds[1]}`)
+			.set("authorization", `Bearer ${a1Token}`);
+		expect(resp.body).toEqual({ favorited: `${testFactIds[1]}` });
 	});
 
 	test("unauth for others", async function () {
 		const resp = await request(app)
-			.post(`/users/u1/favorites/${testFactIds[1]}`)
+			.post(`/users/a1/favorites/${testFactIds[1]}`)
 			.set("authorization", `Bearer ${u2Token}`);
 		expect(resp.statusCode).toEqual(401);
 	});
 
 	test("unauth for anon", async function () {
 		const resp = await request(app).post(
-			`/users/u1/favorites/${testFactIds[1]}`
+			`/users/a1/favorites/${testFactIds[1]}`
 		);
 		expect(resp.statusCode).toEqual(401);
 	});
@@ -396,14 +424,14 @@ describe("POST /users/:username/favorites/:fact_id", function () {
 
 	test("not found for no such fact", async function () {
 		const resp = await request(app)
-			.post(`/users/u1/favorites/0`)
+			.post(`/users/a1/favorites/0`)
 			.set("authorization", `Bearer ${adminToken}`);
 		expect(resp.statusCode).toEqual(404);
 	});
 
 	test("bad request invalid fact id", async function () {
 		const resp = await request(app)
-			.post(`/users/u1/favorites/0`)
+			.post(`/users/a1/favorites/0`)
 			.set("authorization", `Bearer ${adminToken}`);
 		expect(resp.statusCode).toEqual(404);
 	});
