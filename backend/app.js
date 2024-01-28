@@ -22,13 +22,21 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+/** These are different morgan middlware logs to console that we can use for keeping track of what our apps current state is.
+ * Chose 1 from:
+ * 		- tiny
+ * 		- dev
+ * 		- giant one i made fo fun
+ */
 // app.use(morgan("tiny"));
-app.use(morgan("dev"));
-// app.use(
-// 	morgan(
-// 		"---- \n Method: :method \n URL: :url \n Status: :status \n http-version: :http-version \n :date  \n User Agent: :user-agent \n Request Auth: :req[authorization] \n Response Auth: :res[authorization] \n Content Length: :res[content-length] \n Response Time: :response-time ms "
-// 	)
-// );
+// app.use(morgan("dev"));
+app.use(
+	morgan(
+		"---- \n Method: :method \n URL: :url \n Status: :status \n http-version: :http-version \n :date  \n User Agent: :user-agent \n Request Auth: :req[authorization] \n Response Auth: :res[authorization] \n Content Length: :res[content-length] \n Response Time: :response-time ms "
+	)
+);
+
 app.use(authenticateJWT);
 // console.log("OI!!");
 app.use("/auth", authRoutes);
