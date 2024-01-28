@@ -55,6 +55,9 @@ class User {
 	 **/
 
 	static async register({ username, password, date_reg, email, isAdmin }) {
+
+		console.log("----------- Models \n USER.register \n ----------- user data :",{username, password, date_reg, email, isAdmin});
+
 		const duplicateCheck = await db.query(
 			`SELECT username
            FROM users
@@ -128,7 +131,7 @@ class User {
 
 		if (!user) throw new NotFoundError(`No user: ${username}`);
 
-		// TODO FACT LIST -----------------------------------
+		// TODO FAVORITE FACT LIST -----------------------------------
 		const userFavoritesRes = await db.query(
 			`SELECT 
 				f.fact_id,

@@ -30,12 +30,12 @@ app.use(express.json());
  * 		- giant one i made fo fun
  */
 // app.use(morgan("tiny"));
-// app.use(morgan("dev"));
-app.use(
-	morgan(
-		"---- \n Method: :method \n URL: :url \n Status: :status \n http-version: :http-version \n :date  \n User Agent: :user-agent \n Request Auth: :req[authorization] \n Response Auth: :res[authorization] \n Content Length: :res[content-length] \n Response Time: :response-time ms "
-	)
-);
+app.use(morgan("dev"));
+// app.use(
+// 	morgan(
+// 		"---- \n Method: :method \n URL: :url \n Status: :status \n http-version: :http-version \n :date  \n User Agent: :user-agent \n Request Auth: :req[authorization] \n Response Auth: :res[authorization] \n Content Length: :res[content-length] \n Response Time: :response-time ms "
+// 	)
+// );
 
 app.use(authenticateJWT);
 // console.log("OI!!");

@@ -1,68 +1,76 @@
 const bcrypt = require("bcrypt");
-
+process.env.NODE_ENV = "test";
 const db = require("../db.js");
 const { BCRYPT_WORK_FACTOR } = require("../config");
 
-const testJobIds = [];
+const testFactIds = [];
 
 async function commonBeforeAll() {
-  // noinspection SqlWithoutWhere
-  await db.query("DELETE FROM companies");
-  // noinspection SqlWithoutWhere
-  await db.query("DELETE FROM users");
+	// noinspection SqlWithoutWhere
+	await db.query("DELETE FROM favorites");
+	// noinspection SqlWithoutWhere
+	await db.query("DELETE FROM facts");
+	// noinspection SqlWithoutWhere
+	await db.query("DELETE FROM pages");
+	// noinspection SqlWithoutWhere
+	await db.query("DELETE FROM users");
 
-  await db.query(`
-    INSERT INTO companies(handle, name, num_employees, description, logo_url)
-    VALUES ('c1', 'C1', 1, 'Desc1', 'http://c1.img'),
-           ('c2', 'C2', 2, 'Desc2', 'http://c2.img'),
-           ('c3', 'C3', 3, 'Desc3', 'http://c3.img')`);
+	await db.query(`INSERT INTO pages (page_id, page_url, wikibase_item)
+    VALUES (1, 'http://www.example.com', 'Q1'),
+           (2, 'http://www.example.com', 'Q2'),
+           (3, 'http://www.example.com', 'Q3'),
+           (4, 'http://www.example.com', 'Q4')`);
 
-  const resultsJobs = await db.query(`
-    INSERT INTO jobs (title, salary, equity, company_handle)
-    VALUES ('Job1', 100, '0.1', 'c1'),
-           ('Job2', 200, '0.2', 'c1'),
-           ('Job3', 300, '0', 'c1'),
-           ('Job4', NULL, NULL, 'c1')
-    RETURNING id`);
-  testJobIds.splice(0, 0, ...resultsJobs.rows.map(r => r.id));
+	const resultsFacts =
+		await db.query(`INSERT INTO facts (text_title , fact_date , page_id)
+    VALUES ('F1', '2024/01/28', 1),
+           ('F2', '2024/01/28', 2),
+           ('F3', '2024/01/28', 3),
+           ('F4', '2024/01/28', 4)
+    RETURNING fact_id`);
 
-  await db.query(`
-        INSERT INTO users(username,
-                          password,
-                          first_name,
-                          last_name,
-                          email)
-        VALUES ('u1', $1, 'U1F', 'U1L', 'u1@email.com'),
-               ('u2', $2, 'U2F', 'U2L', 'u2@email.com')
+	// console.log("resultsFacts.rows:", resultsFacts.rows);
+
+	testFactIds.splice(0, 0, ...resultsFacts.rows.map((r) => r.fact_id));
+
+	// console.log("testFactIds:", testFactIds);
+
+	await db.query(
+		`
+        INSERT INTO users(username, password, date_reg, email)
+        VALUES ('u1', $1, '2024/01/28', 'u1@email.com'),
+               ('u2', $2, '2024/01/28', 'u2@email.com')
         RETURNING username`,
-      [
-        await bcrypt.hash("password1", BCRYPT_WORK_FACTOR),
-        await bcrypt.hash("password2", BCRYPT_WORK_FACTOR),
-      ]);
+		[
+			await bcrypt.hash("password1", BCRYPT_WORK_FACTOR),
+			await bcrypt.hash("password2", BCRYPT_WORK_FACTOR),
+		]
+	);
 
-  await db.query(`
-        INSERT INTO applications(username, job_id)
+	await db.query(
+		`
+        INSERT INTO favorites(username, fact_id)
         VALUES ('u1', $1)`,
-      [testJobIds[0]]);
+		[testFactIds[0]]
+	);
 }
 
 async function commonBeforeEach() {
-  await db.query("BEGIN");
+	await db.query("BEGIN");
 }
 
 async function commonAfterEach() {
-  await db.query("ROLLBACK");
+	await db.query("ROLLBACK");
 }
 
 async function commonAfterAll() {
-  await db.end();
+	await db.end();
 }
 
-
 module.exports = {
-  commonBeforeAll,
-  commonBeforeEach,
-  commonAfterEach,
-  commonAfterAll,
-  testJobIds,
+	commonBeforeAll,
+	commonBeforeEach,
+	commonAfterEach,
+	commonAfterAll,
+	testFactIds,
 };

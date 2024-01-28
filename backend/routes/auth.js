@@ -39,7 +39,7 @@ router.post("/token", async function (req, res, next) {
 
 /** POST /auth/register:   { user } => { token }
  *
- * user must include { username, password, firstName, lastName, email }
+ * user must include { username, password, date_reg, email }
  *
  * Returns JWT token which can be used to authenticate further requests.
  *
@@ -48,6 +48,9 @@ router.post("/token", async function (req, res, next) {
 
 router.post("/register", async function (req, res, next) {
 	try {
+
+		console.log("----------- Routes \n AUTH/register \n ----------- user req :",req);
+
 		const validator = jsonschema.validate(req.body, userRegisterSchema);
 		if (!validator.valid) {
 			const errs = validator.errors.map((e) => e.stack);

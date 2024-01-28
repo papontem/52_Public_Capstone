@@ -35,7 +35,7 @@ console.log("NODE_ENV:".yellow, process.env.NODE_ENV);
 console.log("PORT:".yellow, PORT.toString());
 console.log("BCRYPT_WORK_FACTOR".yellow, BCRYPT_WORK_FACTOR);
 console.log("Database Name:".yellow, DB_NAME);
-// console.log("Database:".yellow, getDatabaseUri());
+console.log("Database:".yellow, getDatabaseUri());
 console.log("Database URI:".yellow, short_DB_URI);
 
 console.log("---");

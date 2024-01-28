@@ -28,6 +28,9 @@ const router = express.Router();
 
 router.post("/", ensureAdmin, async function (req, res, next) {
 	try {
+
+		// console.log(" ----- \n POST /users : \nreq:", req);
+
 		const validator = jsonschema.validate(req.body, userNewSchema);
 		if (!validator.valid) {
 			const errs = validator.errors.map((e) => e.stack);
@@ -48,7 +51,6 @@ router.post("/", ensureAdmin, async function (req, res, next) {
  *
  * Authorization required: admin
  **/
-// IN THE MEAN TIME
 router.get("/", ensureAdmin, async function (req, res, next) {
 	// router.get("/", async function (req, res, next) {
 	try {
