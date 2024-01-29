@@ -221,7 +221,7 @@ class User {
 	 **/
 
 	static async favoriteAFact(username, fact_Id) {
-		console.log("Models USER FAVORITE A FACT");
+		// console.log("Models USER FAVORITE A FACT");
 
 		const preCheck = await db.query(
 			`SELECT fact_id

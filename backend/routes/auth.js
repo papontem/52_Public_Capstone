@@ -24,10 +24,12 @@ router.post("/token", async function (req, res, next) {
 	try {
 		const validator = jsonschema.validate(req.body, userAuthSchema);
 		if (!validator.valid) {
+			// console.log("---- \n VALIDATION FAILURE");
+			console.log("ERROR in validating auth/token");
 			const errs = validator.errors.map((e) => e.stack);
 			throw new BadRequestError(errs);
 		}
-
+		// console.log("---- \n VALIDATION SUCCESS");
 		const { username, password } = req.body;
 		const user = await User.authenticate(username, password);
 		const token = createToken(user);
@@ -49,7 +51,7 @@ router.post("/token", async function (req, res, next) {
 router.post("/register", async function (req, res, next) {
 	try {
 
-		console.log("----------- Routes \n AUTH/register \n ----------- user req :",req);
+		// console.log("----------- Routes \n AUTH/register \n ----------- user req :",req.body);
 
 		const validator = jsonschema.validate(req.body, userRegisterSchema);
 		if (!validator.valid) {
