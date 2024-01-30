@@ -14,12 +14,17 @@ const { SECRET_KEY } = require("../config");
 const testJwt = jwt.sign({ username: "test", isAdmin: false }, SECRET_KEY);
 const badJwt = jwt.sign({ username: "test", isAdmin: false }, "wrong");
 
+console.log("------------ start \n middleware/auth.test.js ");
+
+console.log("testJwt:", testJwt);
+console.log("badJwt:", badJwt);
 
 describe("authenticateJWT", function () {
   test("works: via header", function () {
     expect.assertions(2);
-    //there are multiple ways to pass an authorization token, this is how you pass it in the header.
-    //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
+    // There are multiple ways to pass an authorization token, this is how you pass it in the header.
+    // This has been provided to show you another way to pass the token.
+    // You are only expected to read this code for this project.
     const req = { headers: { authorization: `Bearer ${testJwt}` } };
     const res = { locals: {} };
     const next = function (err) {
@@ -45,7 +50,7 @@ describe("authenticateJWT", function () {
     authenticateJWT(req, res, next);
     expect(res.locals).toEqual({});
   });
-
+  
   test("works: invalid token", function () {
     expect.assertions(2);
     const req = { headers: { authorization: `Bearer ${badJwt}` } };
@@ -69,7 +74,7 @@ describe("ensureLoggedIn", function () {
     };
     ensureLoggedIn(req, res, next);
   });
-
+  
   test("unauth if no login", function () {
     expect.assertions(1);
     const req = {};
@@ -92,7 +97,7 @@ describe("ensureAdmin", function () {
     };
     ensureAdmin(req, res, next);
   });
-
+  
   test("unauth if not admin", function () {
     expect.assertions(1);
     const req = {};
@@ -102,7 +107,7 @@ describe("ensureAdmin", function () {
     };
     ensureAdmin(req, res, next);
   });
-
+  
   test("unauth if anon", function () {
     expect.assertions(1);
     const req = {};
@@ -125,7 +130,7 @@ describe("ensureCorrectUserOrAdmin", function () {
     };
     ensureCorrectUserOrAdmin(req, res, next);
   });
-
+  
   test("works: same user", function () {
     expect.assertions(1);
     const req = { params: { username: "test" } };
@@ -135,7 +140,7 @@ describe("ensureCorrectUserOrAdmin", function () {
     };
     ensureCorrectUserOrAdmin(req, res, next);
   });
-
+  
   test("unauth: mismatch", function () {
     expect.assertions(1);
     const req = { params: { username: "wrong" } };
@@ -145,9 +150,12 @@ describe("ensureCorrectUserOrAdmin", function () {
     };
     ensureCorrectUserOrAdmin(req, res, next);
   });
-
+  
   test("unauth: if anon", function () {
     expect.assertions(1);
+
+    
+
     const req = { params: { username: "test" } };
     const res = { locals: {} };
     const next = function (err) {
@@ -156,3 +164,5 @@ describe("ensureCorrectUserOrAdmin", function () {
     ensureCorrectUserOrAdmin(req, res, next);
   });
 });
+
+console.log("------------ end \n middleware/auth.test.js ");
